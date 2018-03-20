@@ -18,9 +18,9 @@ class LaunchVC: UIViewController {
             // Check the current time and day of week to determine busy status, then display corresponding status
             // if ......
             
-            let tabBarVC = self.storyboard?.instantiateViewController(withIdentifier: "TabBarVC")
-            tabBarVC!.modalTransitionStyle = .crossDissolve
-            self.present(tabBarVC!, animated: true, completion: nil)
+            let navVC = self.storyboard?.instantiateViewController(withIdentifier: "NavigationVC")
+            navVC!.modalTransitionStyle = .crossDissolve
+            self.present(navVC!, animated: true, completion: nil)
         }
     }
 

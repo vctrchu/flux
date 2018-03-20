@@ -1,0 +1,6 @@
+framework module Pods_flux {
+  umbrella header "Pods-flux-umbrella.h"
+
+  export *
+  module * { export * }
+}

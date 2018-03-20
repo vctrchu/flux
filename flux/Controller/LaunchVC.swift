@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Motion
 
 class LaunchVC: UIViewController {
 
@@ -14,7 +15,11 @@ class LaunchVC: UIViewController {
         super.viewDidLoad()
         // Delays screen to show launch screen longer.
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            // Check the current time and day of week to determine busy status, then display corresponding status
+            // if ......
+            
             let tabBarVC = self.storyboard?.instantiateViewController(withIdentifier: "TabBarVC")
+            tabBarVC!.modalTransitionStyle = .crossDissolve
             self.present(tabBarVC!, animated: true, completion: nil)
         }
     }

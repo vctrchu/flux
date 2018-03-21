@@ -27,7 +27,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="FluxIcon" translatesAutoresizingMaskIntoConstraints="NO" id="dih-9Q-t2H">
-                                <rect key="frame" x="140" y="317" width="94" height="33"/>
+                                <rect key="frame" x="140.5" y="317" width="94" height="33"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33" id="GB5-C0-HYC"/>
                                     <constraint firstAttribute="width" constant="94" id="lM7-ck-JfG"/>
@@ -55,9 +55,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="s8b-bP-AGT">
-                                <rect key="frame" x="37" y="104" width="300" height="283"/>
+                                <rect key="frame" x="37.5" y="104" width="300" height="283"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CurrentGymStatus" translatesAutoresizingMaskIntoConstraints="NO" id="kdn-GV-IVn">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CurrentGymStatusTextIcon" translatesAutoresizingMaskIntoConstraints="NO" id="kdn-GV-IVn">
                                         <rect key="frame" x="0.0" y="0.0" width="300" height="41"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="300" id="OIZ-rz-Xa4"/>
@@ -111,6 +111,9 @@
                                 <rect key="frame" x="335" y="11" width="24" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" image="ReloadButtonIcon"/>
+                                <connections>
+                                    <action selector="reloadButtonTapped:" destination="b4a-eO-PRX" eventType="touchUpInside" id="Kxd-v0-nks"/>
+                                </connections>
                             </button>
                         </barButtonItem>
                     </navigationItem>
@@ -149,7 +152,7 @@
     </scenes>
     <resources>
         <image name="100kgPlateIcon" width="128" height="128"/>
-        <image name="CurrentGymStatus" width="303" height="26"/>
+        <image name="CurrentGymStatusTextIcon" width="209" height="24"/>
         <image name="FluxIcon" width="86" height="29"/>
         <image name="HomeIcon" width="21" height="25"/>
         <image name="ReloadButtonIcon" width="24" height="22"/>

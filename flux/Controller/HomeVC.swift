@@ -10,19 +10,65 @@ import UIKit
 
 class HomeVC: UIViewController {
 
-    @IBOutlet weak var statusLabel: UILabel!
+    @IBOutlet weak var statusLabel: UIImageView!
     @IBOutlet weak var statusDescriptionLabel: UILabel!
     @IBOutlet weak var statusImage: UIImageView!
-    @IBOutlet var backgroundView: UIView!
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var dayPickerView: UIPickerView!
+    @IBOutlet weak var hourPickerView: UIPickerView!
+    @IBOutlet weak var amPmPickerView: UIPickerView!
+    
+    
+    let refreshControl = UIRefreshControl()
+    var dayArray = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+    var hourArray = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
+    var ampmArray = ["AM", "PM"]
+ 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        refreshControl.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
+        scrollView.addSubview(refreshControl)
         addNavigationBarTitleImage()
+        dayPickerView.delegate = self
+        hourPickerView.delegate = self
+        amPmPickerView.delegate = self
+        dayPickerView.dataSource = self
+        hourPickerView.dataSource = self
+        amPmPickerView.dataSource = self
+        hidePickerViews()
+
+    }
+    
+    @objc func didPullToRefresh() {
         determineGymStatus()
+        hidePickerViews()
+        refreshControl.endRefreshing()
     }
-    @IBAction func reloadButtonTapped(_ sender: Any) {
-        self.determineGymStatus()
+    
+    func determineGymStatus() {
+        let date = Date()
+        let calendar = Calendar.current
+        let hour = calendar.component(.hour, from: date)
+        let day = calendar.component(.weekday, from: date)
+        
+        if hour == 13 && day == 5 {
+            highStatus()
+        }
     }
+    
+    func hidePickerViews() {
+        dayPickerView.isHidden = true
+        hourPickerView.isHidden = true
+        amPmPickerView.isHidden = true
+    }
+    
+    func showPickerViews() {
+        dayPickerView.isHidden = false
+        hourPickerView.isHidden = false
+        amPmPickerView.isHidden = false
+    }
+
     
     func addNavigationBarTitleImage() {
         let titleImageView = UIImageView(image: #imageLiteral(resourceName: "FluxNavBarIcon"))
@@ -33,44 +79,60 @@ class HomeVC: UIViewController {
     }
     
     func lowStatus() {
-        statusImage.image = #imageLiteral(resourceName: "CardioMachineIcon")
-        backgroundView.backgroundColor = #colorLiteral(red: 0.2980392157, green: 0.6862745098, blue: 0.3098039216, alpha: 1)
-        statusLabel.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-        statusDescriptionLabel.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-        statusLabel.text = "Low"
+        statusImage.image = #imageLiteral(resourceName: "NotBusyBar")
         statusDescriptionLabel.text = "Currently the gym is not busy."
     }
-    
-    func mediumStatus() {
-        statusImage.image = #imageLiteral(resourceName: "FlyMachineIcon")
-        backgroundView.backgroundColor = #colorLiteral(red: 1, green: 0.5960784314, blue: 0, alpha: 1)
-        statusLabel.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-        statusDescriptionLabel.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-        statusLabel.text = "Medium"
+
+    func moderateStatus() {
+        statusImage.image = #imageLiteral(resourceName: "ModerateBusyBar")
         statusDescriptionLabel.text = "Currently the gym moderately busy."
     }
-    
+
     func highStatus() {
-        statusImage.image = #imageLiteral(resourceName: "100kgPlateIcon")
-        backgroundView.backgroundColor = #colorLiteral(red: 0.9568627451, green: 0.262745098, blue: 0.2156862745, alpha: 1)
-        statusLabel.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-        statusDescriptionLabel.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-        statusLabel.text = "High"
+        statusImage.image = #imageLiteral(resourceName: "HighBusyBar")
         statusDescriptionLabel.text = "Currently the gym is busy."
     }
-    
-    
-    func determineGymStatus() {
-        let date = Date()
-        let calendar = Calendar.current
-        let hour = calendar.component(.hour, from: date)
-        let day = calendar.component(.weekday, from: date)
-        
-        if hour == 21 && day == 3 {
-          highStatus()
+
+
+    @IBAction func customTimeButtonTapped(_ sender: Any) {
+        if dayPickerView.isHidden, hourPickerView.isHidden, amPmPickerView.isHidden {
+            showPickerViews()
         }
     }
-
-
-
+    
 }
+
+
+extension HomeVC: UIPickerViewDelegate, UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        if pickerView == dayPickerView {
+            return dayArray.count
+        } else if pickerView == hourPickerView {
+            return hourArray.count
+        } else {
+            return ampmArray.count
+        }
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        if pickerView == dayPickerView {
+            return dayArray[row]
+        } else if pickerView == hourPickerView {
+            return hourArray[row]
+        } else {
+            return ampmArray[row]
+        }
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+
+    }
+    
+    
+}
+
+

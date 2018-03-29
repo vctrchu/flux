@@ -46,58 +46,108 @@
         <!--HomeVC-->
         <scene sceneID="bal-xm-uG4">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="GcQ-zo-Qck" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="HomeVC" id="b4a-eO-PRX" customClass="HomeVC" customModule="flux" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Rug-hZ-7RE">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CurrentGymStatusTextIcon" translatesAutoresizingMaskIntoConstraints="NO" id="dqk-Bo-9vH">
-                                <rect key="frame" x="80" y="114" width="215" height="32"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Znd-XA-Drj">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eRc-h3-nmc" userLabel="contentView">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CurrentGymStatusTextIcon" translatesAutoresizingMaskIntoConstraints="NO" id="dqk-Bo-9vH">
+                                                <rect key="frame" x="65" y="44" width="245" height="36"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="36" id="5BK-7w-cZp"/>
+                                                    <constraint firstAttribute="width" constant="245" id="N03-03-bgq"/>
+                                                </constraints>
+                                            </imageView>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="WeekdayOperatingHours" translatesAutoresizingMaskIntoConstraints="NO" id="1dD-Lv-RFk">
+                                                <rect key="frame" x="93" y="88" width="189" height="16"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="16" id="dp0-9N-2ku"/>
+                                                    <constraint firstAttribute="width" constant="189" id="slR-PJ-PoS"/>
+                                                </constraints>
+                                            </imageView>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="NotBusyBar" translatesAutoresizingMaskIntoConstraints="NO" id="lsV-R4-EKf">
+                                                <rect key="frame" x="44.5" y="144" width="286" height="88"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="286" id="Dbx-bQ-RR4"/>
+                                                    <constraint firstAttribute="height" constant="88" id="Nzy-Zt-9o2"/>
+                                                </constraints>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Currently the gym is not busy." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C9V-eh-I5q">
+                                                <rect key="frame" x="76.5" y="310" width="221.5" height="22.5"/>
+                                                <fontDescription key="fontDescription" name="Roboto-Light" family="Roboto" pointSize="17"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LowStatus" translatesAutoresizingMaskIntoConstraints="NO" id="20o-cA-f8G">
+                                                <rect key="frame" x="153" y="272" width="68" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="68" id="Nzy-OD-cQk"/>
+                                                    <constraint firstAttribute="height" constant="30" id="YL6-bd-0jY"/>
+                                                </constraints>
+                                            </imageView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EQo-uT-zl7">
+                                                <rect key="frame" x="50" y="353" width="274" height="216"/>
+                                                <subviews>
+                                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jj7-iK-Saf">
+                                                        <rect key="frame" x="0.0" y="0.0" width="150" height="216"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="150" id="idK-D2-lTV"/>
+                                                        </constraints>
+                                                    </pickerView>
+                                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6jQ-wl-6wf">
+                                                        <rect key="frame" x="150" y="0.0" width="61" height="216"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="61" id="0cM-AF-Fx3"/>
+                                                        </constraints>
+                                                    </pickerView>
+                                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gSJ-qg-zmk">
+                                                        <rect key="frame" x="211" y="0.0" width="63" height="216"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="63" id="NyM-9n-nHy"/>
+                                                        </constraints>
+                                                    </pickerView>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstItem="1dD-Lv-RFk" firstAttribute="top" secondItem="dqk-Bo-9vH" secondAttribute="bottom" constant="8" id="2AE-eN-mAy"/>
+                                            <constraint firstItem="dqk-Bo-9vH" firstAttribute="top" secondItem="eRc-h3-nmc" secondAttribute="top" constant="44" id="70j-nf-rAA"/>
+                                            <constraint firstItem="EQo-uT-zl7" firstAttribute="top" secondItem="C9V-eh-I5q" secondAttribute="bottom" constant="20.5" id="Ngp-PS-HnU"/>
+                                            <constraint firstItem="lsV-R4-EKf" firstAttribute="centerX" secondItem="eRc-h3-nmc" secondAttribute="centerX" id="R92-ms-K9U"/>
+                                            <constraint firstItem="20o-cA-f8G" firstAttribute="top" secondItem="lsV-R4-EKf" secondAttribute="bottom" constant="40" id="Rc9-0f-shM"/>
+                                            <constraint firstItem="20o-cA-f8G" firstAttribute="centerX" secondItem="eRc-h3-nmc" secondAttribute="centerX" id="TAP-iW-Cw5"/>
+                                            <constraint firstItem="C9V-eh-I5q" firstAttribute="centerX" secondItem="eRc-h3-nmc" secondAttribute="centerX" id="X3a-kJ-UxQ"/>
+                                            <constraint firstItem="1dD-Lv-RFk" firstAttribute="centerX" secondItem="eRc-h3-nmc" secondAttribute="centerX" id="YYX-C2-zpj"/>
+                                            <constraint firstItem="lsV-R4-EKf" firstAttribute="top" secondItem="1dD-Lv-RFk" secondAttribute="bottom" constant="40" id="nLM-SQ-o4z"/>
+                                            <constraint firstItem="dqk-Bo-9vH" firstAttribute="centerX" secondItem="eRc-h3-nmc" secondAttribute="centerX" id="qoZ-jw-7d3"/>
+                                            <constraint firstItem="EQo-uT-zl7" firstAttribute="centerX" secondItem="eRc-h3-nmc" secondAttribute="centerX" id="tSg-4b-yDT"/>
+                                            <constraint firstItem="C9V-eh-I5q" firstAttribute="top" secondItem="20o-cA-f8G" secondAttribute="bottom" constant="8" id="v5L-8v-Hjc"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="32" id="9DP-os-Hz8"/>
-                                    <constraint firstAttribute="width" constant="215" id="bcA-Ib-ARf"/>
+                                    <constraint firstItem="eRc-h3-nmc" firstAttribute="leading" secondItem="Znd-XA-Drj" secondAttribute="leading" id="EEa-wL-v2o"/>
+                                    <constraint firstItem="eRc-h3-nmc" firstAttribute="centerX" secondItem="Znd-XA-Drj" secondAttribute="centerX" id="UP0-oC-069"/>
+                                    <constraint firstAttribute="trailing" secondItem="eRc-h3-nmc" secondAttribute="trailing" id="YuU-JO-QOk"/>
+                                    <constraint firstItem="eRc-h3-nmc" firstAttribute="top" secondItem="Znd-XA-Drj" secondAttribute="top" id="ace-iC-zir"/>
+                                    <constraint firstAttribute="bottom" secondItem="eRc-h3-nmc" secondAttribute="bottom" id="bAm-fk-3ED"/>
                                 </constraints>
-                            </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="WeekdayOperatingHours" translatesAutoresizingMaskIntoConstraints="NO" id="1dD-Lv-RFk">
-                                <rect key="frame" x="93" y="154" width="189" height="16"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="189" id="H1I-Oy-QUc"/>
-                                    <constraint firstAttribute="height" constant="16" id="vA5-Yp-PHe"/>
-                                </constraints>
-                            </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="NotBusyBar" translatesAutoresizingMaskIntoConstraints="NO" id="lsV-R4-EKf">
-                                <rect key="frame" x="51" y="192" width="272" height="88"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="88" id="DhP-C2-2Rt"/>
-                                    <constraint firstAttribute="width" constant="272" id="XMY-Ka-Kwg"/>
-                                </constraints>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Currently the gym is not busy." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C9V-eh-I5q">
-                                <rect key="frame" x="76.5" y="358" width="222" height="23"/>
-                                <fontDescription key="fontDescription" name="Roboto-Light" family="Roboto" pointSize="17"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LowStatus" translatesAutoresizingMaskIntoConstraints="NO" id="20o-cA-f8G">
-                                <rect key="frame" x="158" y="320" width="58" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="58" id="7RM-2q-RXG"/>
-                                    <constraint firstAttribute="height" constant="30" id="j7Z-sW-XhM"/>
-                                </constraints>
-                            </imageView>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="C9V-eh-I5q" firstAttribute="top" secondItem="20o-cA-f8G" secondAttribute="bottom" constant="8" id="4jR-Mj-zOf"/>
-                            <constraint firstItem="dqk-Bo-9vH" firstAttribute="top" secondItem="DHU-Qb-FKD" secondAttribute="top" constant="50" id="Fj6-EE-0b8"/>
-                            <constraint firstItem="lsV-R4-EKf" firstAttribute="centerX" secondItem="Rug-hZ-7RE" secondAttribute="centerX" id="KY2-Lh-U2K"/>
-                            <constraint firstItem="lsV-R4-EKf" firstAttribute="top" secondItem="1dD-Lv-RFk" secondAttribute="bottom" constant="22" id="Ses-uW-k5H"/>
-                            <constraint firstItem="dqk-Bo-9vH" firstAttribute="centerX" secondItem="Rug-hZ-7RE" secondAttribute="centerX" id="cbw-Je-ohO"/>
-                            <constraint firstItem="1dD-Lv-RFk" firstAttribute="top" secondItem="dqk-Bo-9vH" secondAttribute="bottom" constant="8" id="flz-ik-fB5"/>
-                            <constraint firstItem="20o-cA-f8G" firstAttribute="centerX" secondItem="Rug-hZ-7RE" secondAttribute="centerX" id="nvb-Ty-15g"/>
-                            <constraint firstItem="1dD-Lv-RFk" firstAttribute="centerX" secondItem="Rug-hZ-7RE" secondAttribute="centerX" id="rsY-0e-6FB"/>
-                            <constraint firstItem="C9V-eh-I5q" firstAttribute="centerX" secondItem="Rug-hZ-7RE" secondAttribute="centerX" id="vIv-k5-IiY"/>
-                            <constraint firstItem="20o-cA-f8G" firstAttribute="top" secondItem="lsV-R4-EKf" secondAttribute="bottom" constant="40" id="wf5-WJ-Ugm"/>
+                            <constraint firstItem="Znd-XA-Drj" firstAttribute="bottom" secondItem="DHU-Qb-FKD" secondAttribute="bottom" id="Bb2-Ur-Lr5"/>
+                            <constraint firstItem="eRc-h3-nmc" firstAttribute="height" secondItem="Rug-hZ-7RE" secondAttribute="height" id="GHp-9q-nQ3"/>
+                            <constraint firstItem="eRc-h3-nmc" firstAttribute="width" secondItem="Rug-hZ-7RE" secondAttribute="width" id="HsY-8A-6k8"/>
+                            <constraint firstItem="Znd-XA-Drj" firstAttribute="top" secondItem="DHU-Qb-FKD" secondAttribute="top" id="XXW-Yv-pzi"/>
+                            <constraint firstItem="Znd-XA-Drj" firstAttribute="trailing" secondItem="DHU-Qb-FKD" secondAttribute="trailing" id="ifv-fo-Zpb"/>
+                            <constraint firstItem="Znd-XA-Drj" firstAttribute="leading" secondItem="DHU-Qb-FKD" secondAttribute="leading" id="wYV-dz-WC8"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="DHU-Qb-FKD"/>
                     </view>
@@ -109,18 +159,34 @@
                                 <state key="normal" image="settings-icon"/>
                             </button>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="CRr-Bo-ECI">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="5nb-VX-Ehp">
+                                <rect key="frame" x="320" y="2.5" width="39" height="39"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="CustomTimeButton"/>
+                                <connections>
+                                    <action selector="customTimeButtonTapped:" destination="b4a-eO-PRX" eventType="touchUpInside" id="Gug-OR-IZX"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="backgroundView" destination="Rug-hZ-7RE" id="Edt-yW-sz9"/>
+                        <outlet property="amPmPickerView" destination="gSJ-qg-zmk" id="t8j-rX-hcH"/>
+                        <outlet property="dayPickerView" destination="Jj7-iK-Saf" id="Gfg-QN-BJr"/>
+                        <outlet property="hourPickerView" destination="6jQ-wl-6wf" id="smZ-PF-MTb"/>
+                        <outlet property="scrollView" destination="Znd-XA-Drj" id="Ggz-vx-HL1"/>
+                        <outlet property="statusDescriptionLabel" destination="C9V-eh-I5q" id="vfD-sg-GbN"/>
+                        <outlet property="statusImage" destination="lsV-R4-EKf" id="oKu-Pt-gcg"/>
+                        <outlet property="statusLabel" destination="20o-cA-f8G" id="4WD-NS-p3C"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GcQ-zo-Qck" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1317.5999999999999" y="115.59220389805098"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="QWy-tz-7Re">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="bgu-UM-QVt" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController storyboardIdentifier="NavigationVC" automaticallyAdjustsScrollViewInsets="NO" id="eMn-JS-qgd" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="HomeIcon" selectedImage="HomeIcon" id="fcf-y4-e0W">
                         <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
@@ -135,12 +201,14 @@
                         <segue destination="b4a-eO-PRX" kind="relationship" relationship="rootViewController" id="rHr-2u-7lz"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bgu-UM-QVt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="580" y="116"/>
         </scene>
     </scenes>
     <resources>
         <image name="CurrentGymStatusTextIcon" width="209" height="24"/>
+        <image name="CustomTimeButton" width="26" height="26"/>
         <image name="FluxIcon" width="86" height="29"/>
         <image name="HomeIcon" width="21" height="25"/>
         <image name="LowStatus" width="68" height="30"/>

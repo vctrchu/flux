@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		80270303BF69BE5B81BAA1AA /* Pods_flux.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA36F93D82A25E127A8B40AA /* Pods_flux.framework */; };
-		FB5077A6206186D200B36536 /* GymStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5077A5206186D200B36536 /* GymStatus.swift */; };
 		FBF4609C206049E0008B0F20 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF4609B206049E0008B0F20 /* AppDelegate.swift */; };
 		FBF4609E206049E0008B0F20 /* LaunchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF4609D206049E0008B0F20 /* LaunchVC.swift */; };
 		FBF460A1206049E0008B0F20 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBF4609F206049E0008B0F20 /* Main.storyboard */; };
@@ -22,7 +21,6 @@
 		BA36F93D82A25E127A8B40AA /* Pods_flux.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_flux.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF308368032593071FD6E0D7 /* Pods-flux.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-flux.release.xcconfig"; path = "Pods/Target Support Files/Pods-flux/Pods-flux.release.xcconfig"; sourceTree = "<group>"; };
 		D207DB3DB1334475E49CD631 /* Pods-flux.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-flux.debug.xcconfig"; path = "Pods/Target Support Files/Pods-flux/Pods-flux.debug.xcconfig"; sourceTree = "<group>"; };
-		FB5077A5206186D200B36536 /* GymStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymStatus.swift; sourceTree = "<group>"; };
 		FBF46098206049E0008B0F20 /* flux.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = flux.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBF4609B206049E0008B0F20 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FBF4609D206049E0008B0F20 /* LaunchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchVC.swift; sourceTree = "<group>"; };
@@ -81,14 +79,6 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		FB5077A42061869300B36536 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				FB5077A5206186D200B36536 /* GymStatus.swift */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
 		FBF4608F206049E0008B0F20 = {
 			isa = PBXGroup;
 			children = (
@@ -111,7 +101,6 @@
 			isa = PBXGroup;
 			children = (
 				FBF460AE206049FB008B0F20 /* Services */,
-				FB5077A42061869300B36536 /* Model */,
 				FBF460AD206049F4008B0F20 /* Controller */,
 				FBF4609B206049E0008B0F20 /* AppDelegate.swift */,
 				FBF4609F206049E0008B0F20 /* Main.storyboard */,
@@ -298,7 +287,6 @@
 				FBF460B020604A9E008B0F20 /* LocationService.swift in Sources */,
 				FBF4609C206049E0008B0F20 /* AppDelegate.swift in Sources */,
 				FBF460B420604CAA008B0F20 /* SettingsVC.swift in Sources */,
-				FB5077A6206186D200B36536 /* GymStatus.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

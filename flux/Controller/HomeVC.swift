@@ -7,68 +7,91 @@
 //
 
 import UIKit
+import Charts
+import FirebaseDatabase
 
-class HomeVC: UIViewController {
+class HomeVC: UIViewController, ChartViewDelegate {
 
     @IBOutlet weak var statusLabel: UIImageView!
     @IBOutlet weak var statusDescriptionLabel: UILabel!
-    @IBOutlet weak var statusImage: UIImageView!
     @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var dayPickerView: UIPickerView!
-    @IBOutlet weak var hourPickerView: UIPickerView!
-    @IBOutlet weak var amPmPickerView: UIPickerView!
-    
+    @IBOutlet weak var barChart: BarChartView!
     
     let refreshControl = UIRefreshControl()
-    var dayArray = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-    var hourArray = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
-    var ampmArray = ["AM", "PM"]
- 
+    
+    var ref:DatabaseReference?
+    var refHandle: UInt?
+    
+    var mondayArray = [String: Int]()
+
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         refreshControl.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
         scrollView.addSubview(refreshControl)
         addNavigationBarTitleImage()
-        dayPickerView.delegate = self
-        hourPickerView.delegate = self
-        amPmPickerView.delegate = self
-        dayPickerView.dataSource = self
-        hourPickerView.dataSource = self
-        amPmPickerView.dataSource = self
-        hidePickerViews()
+        retrieveData(Day: determineDay())
+        
+        
+    }
 
+    
+    func retrieveData(Day: String) {
+        
+        // Set the firebase reference
+        ref = Database.database().reference().child("charts").child("monday")
+        
+        ref?.observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            for child in snapshot.children {
+                let snap = child as! DataSnapshot
+                let key = snap.key
+                let value = snap.value as! Int
+                
+                self.mondayArray[key] = value
+                
+                print(self.mondayArray[key]!)
+                
+                print("key = \(key) value = \(value)")
+            }
+        })
+    
     }
     
     @objc func didPullToRefresh() {
-        determineGymStatus()
-        hidePickerViews()
+        //determineGymStatus()
         refreshControl.endRefreshing()
     }
     
-    func determineGymStatus() {
+    
+ 
+    
+    func determineDay() -> String {
         let date = Date()
         let calendar = Calendar.current
-        let hour = calendar.component(.hour, from: date)
         let day = calendar.component(.weekday, from: date)
+        var value = ""
         
-        if hour == 13 && day == 5 {
-            highStatus()
+        if day == 1 {
+            value = "sunday"
+        } else if day == 2 {
+            value = "monday"
+        } else if day == 3 {
+            value = "tuesday"
+        } else if day == 4 {
+            value = "wednesday"
+        } else if day == 5 {
+            value = "thursday"
+        } else if day == 6 {
+            value = "friday"
+        } else {
+            value = "saturday"
         }
+        
+        return value
     }
     
-    func hidePickerViews() {
-        dayPickerView.isHidden = true
-        hourPickerView.isHidden = true
-        amPmPickerView.isHidden = true
-    }
-    
-    func showPickerViews() {
-        dayPickerView.isHidden = false
-        hourPickerView.isHidden = false
-        amPmPickerView.isHidden = false
-    }
-
     
     func addNavigationBarTitleImage() {
         let titleImageView = UIImageView(image: #imageLiteral(resourceName: "FluxNavBarIcon"))
@@ -78,61 +101,30 @@ class HomeVC: UIViewController {
         navigationItem.titleView = titleImageView
     }
     
-    func lowStatus() {
-        statusImage.image = #imageLiteral(resourceName: "NotBusyBar")
-        statusDescriptionLabel.text = "Currently the gym is not busy."
-    }
-
-    func moderateStatus() {
-        statusImage.image = #imageLiteral(resourceName: "ModerateBusyBar")
-        statusDescriptionLabel.text = "Currently the gym moderately busy."
-    }
-
-    func highStatus() {
-        statusImage.image = #imageLiteral(resourceName: "HighBusyBar")
-        statusDescriptionLabel.text = "Currently the gym is busy."
-    }
+//    func lowStatus() {
+//        statusImage.image = #imageLiteral(resourceName: "NotBusyBar")
+//        statusDescriptionLabel.text = "Currently the gym is not busy."
+//    }
+//
+//    func moderateStatus() {
+//        statusImage.image = #imageLiteral(resourceName: "ModerateBusyBar")
+//        statusDescriptionLabel.text = "Currently the gym moderately busy."
+//    }
+//
+//    func highStatus() {
+//        statusImage.image = #imageLiteral(resourceName: "HighBusyBar")
+//        statusDescriptionLabel.text = "Currently the gym is busy."
+//    }
 
 
     @IBAction func customTimeButtonTapped(_ sender: Any) {
-        if dayPickerView.isHidden, hourPickerView.isHidden, amPmPickerView.isHidden {
-            showPickerViews()
-        }
+
     }
     
 }
 
 
-extension HomeVC: UIPickerViewDelegate, UIPickerViewDataSource {
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if pickerView == dayPickerView {
-            return dayArray.count
-        } else if pickerView == hourPickerView {
-            return hourArray.count
-        } else {
-            return ampmArray.count
-        }
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if pickerView == dayPickerView {
-            return dayArray[row]
-        } else if pickerView == hourPickerView {
-            return hourArray[row]
-        } else {
-            return ampmArray[row]
-        }
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
 
-    }
-    
-    
-}
+
 
 

@@ -7,4 +7,9 @@ target 'flux' do
 
   # Pods for flux
   pod 'Motion'
+  pod 'Charts'
+  
+  pod 'Firebase/Core'
+  pod 'Firebase/Database'
+  
 end

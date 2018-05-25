@@ -8,11 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		80270303BF69BE5B81BAA1AA /* Pods_flux.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA36F93D82A25E127A8B40AA /* Pods_flux.framework */; };
+		FBDC17FB2093D13E007993A0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FBDC17FA2093D13E007993A0 /* GoogleService-Info.plist */; };
 		FBF4609C206049E0008B0F20 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF4609B206049E0008B0F20 /* AppDelegate.swift */; };
 		FBF4609E206049E0008B0F20 /* LaunchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF4609D206049E0008B0F20 /* LaunchVC.swift */; };
 		FBF460A1206049E0008B0F20 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBF4609F206049E0008B0F20 /* Main.storyboard */; };
 		FBF460A3206049E0008B0F20 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FBF460A2206049E0008B0F20 /* Assets.xcassets */; };
-		FBF460B020604A9E008B0F20 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF460AF20604A9E008B0F20 /* LocationService.swift */; };
 		FBF460B220604C9F008B0F20 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF460B120604C9F008B0F20 /* HomeVC.swift */; };
 		FBF460B420604CAA008B0F20 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF460B320604CAA008B0F20 /* SettingsVC.swift */; };
 /* End PBXBuildFile section */
@@ -21,13 +21,13 @@
 		BA36F93D82A25E127A8B40AA /* Pods_flux.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_flux.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF308368032593071FD6E0D7 /* Pods-flux.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-flux.release.xcconfig"; path = "Pods/Target Support Files/Pods-flux/Pods-flux.release.xcconfig"; sourceTree = "<group>"; };
 		D207DB3DB1334475E49CD631 /* Pods-flux.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-flux.debug.xcconfig"; path = "Pods/Target Support Files/Pods-flux/Pods-flux.debug.xcconfig"; sourceTree = "<group>"; };
+		FBDC17FA2093D13E007993A0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FBF46098206049E0008B0F20 /* flux.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = flux.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBF4609B206049E0008B0F20 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FBF4609D206049E0008B0F20 /* LaunchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchVC.swift; sourceTree = "<group>"; };
 		FBF460A0206049E0008B0F20 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FBF460A2206049E0008B0F20 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FBF460A7206049E0008B0F20 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FBF460AF20604A9E008B0F20 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		FBF460B120604C9F008B0F20 /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		FBF460B320604CAA008B0F20 /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 		FBF460B62060C788008B0F20 /* Roboto-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Black.ttf"; sourceTree = "<group>"; };
@@ -106,6 +106,7 @@
 				FBF4609F206049E0008B0F20 /* Main.storyboard */,
 				FBF460A2206049E0008B0F20 /* Assets.xcassets */,
 				FBF460A7206049E0008B0F20 /* Info.plist */,
+				FBDC17FA2093D13E007993A0 /* GoogleService-Info.plist */,
 				FBF460B52060C772008B0F20 /* Font */,
 			);
 			path = flux;
@@ -124,7 +125,6 @@
 		FBF460AE206049FB008B0F20 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				FBF460AF20604A9E008B0F20 /* LocationService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -218,6 +218,7 @@
 			files = (
 				FBF460A3206049E0008B0F20 /* Assets.xcassets in Resources */,
 				FBF460A1206049E0008B0F20 /* Main.storyboard in Resources */,
+				FBDC17FB2093D13E007993A0 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -231,11 +232,19 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-flux/Pods-flux-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/Motion/Motion.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Motion.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -284,7 +293,6 @@
 			files = (
 				FBF4609E206049E0008B0F20 /* LaunchVC.swift in Sources */,
 				FBF460B220604C9F008B0F20 /* HomeVC.swift in Sources */,
-				FBF460B020604A9E008B0F20 /* LocationService.swift in Sources */,
 				FBF4609C206049E0008B0F20 /* AppDelegate.swift in Sources */,
 				FBF460B420604CAA008B0F20 /* SettingsVC.swift in Sources */,
 			);

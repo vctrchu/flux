@@ -51,7 +51,7 @@ class HomeVC: UIViewController, ChartViewDelegate {
     func barChartProperties() {
         barChart.chartDescription?.text = ""
         barChart.rightAxis.enabled = false
-        barChart.
+        
         
     }
     

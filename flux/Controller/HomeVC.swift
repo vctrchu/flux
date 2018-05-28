@@ -31,14 +31,10 @@ class HomeVC: UIViewController, ChartViewDelegate {
     
     var hourOfDay = [String]()
     var numberOfEntriesArray = [Double]()
-   
-
+    
     
 
     override func viewDidLoad() {
-        
-        hourOfDay = ["8:00", "9:00", "10:00", "11:00", "12:00", "1:00", "2:00", "3:00", "4:00", "5:30"]
-        
         super.viewDidLoad()
         refreshControl.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
         scrollView.addSubview(refreshControl)
@@ -47,17 +43,25 @@ class HomeVC: UIViewController, ChartViewDelegate {
         
     }
     
+    @objc func didPullToRefresh() {
+        numberOfEntriesArray.removeAll()
+        retrieveData(Day: determineDay())
+        refreshControl.endRefreshing()
+    }
+    
     
     func barChartProperties() {
         barChart.chartDescription?.text = ""
         barChart.rightAxis.enabled = false
         barChart.xAxis.drawGridLinesEnabled = false
+        barChart.leftAxis.drawGridLinesEnabled = false
+        barChart.rightAxis.drawGridLinesEnabled = false
         barChart.xAxis.labelPosition = .bottom
-        barChart.xAxis.centerAxisLabelsEnabled = true
+        //barChart.xAxis.centerAxisLabelsEnabled = true
         barChart.doubleTapToZoomEnabled = false
-
-        
-        
+        barChart.clipValuesToContentEnabled = false
+        barChart.xAxis.granularityEnabled = true
+        barChart.xAxis.granularity = 1.0
     }
     
 
@@ -73,20 +77,43 @@ class HomeVC: UIViewController, ChartViewDelegate {
         if Day == "monday" {
             ref?.observeSingleEvent(of: .value, with: { (snapshot) in
                 
+                let groupKeys = snapshot.children.compactMap { $0 as? DataSnapshot }.map { $0.key }
+                
+                // This group will keep track of the number of blocks still pending
+                let group = DispatchGroup()
+                
                 for child in snapshot.children {
                     let snap = child as! DataSnapshot
                     let key = snap.key
                     let value = snap.value as! Double
                     
                     self.mondayDictionary[key] = value
-                    //self.hourOfDay.append(key)
+                    // self.hourOfDay.append(key)
                     self.numberOfEntriesArray.append(value)
+                    
                     
                     print(self.mondayDictionary[key]!)
                     
                     print("key = \(key) value = \(value)")
                 }
+                
+                for groupKey in groupKeys {
+                    group.enter()
+                    self.ref?.child("groups").child(groupKey).child("name").observeSingleEvent(of: .value, with: { snapshot in
+                        group.leave()
+                    })
+                }
+                
+                // We ask to be notified when every block left the group
+                group.notify(queue: .main) {
+                    print("All callbacks are completed")
+                    self.barChartProperties()
+                    self.barChart.setBarChartData(xValues: self.hourOfDay, yValues: self.numberOfEntriesArray, label: "Number of Entries")
+                    //self.barChart.xAxis.setLabelCount(100, force: true)
+                    
+                }
             })
+        
         }
         
         else if Day == "tuesday" {
@@ -221,11 +248,7 @@ class HomeVC: UIViewController, ChartViewDelegate {
         
     }
     
-    @objc func didPullToRefresh() {
-        numberOfEntriesArray.removeAll()
-        retrieveData(Day: determineDay())
-        refreshControl.endRefreshing()
-    }
+
     
     
  
@@ -237,18 +260,37 @@ class HomeVC: UIViewController, ChartViewDelegate {
         var value = ""
         
         if day == 1 {
+            hourOfDay = ["8:00", "9:00", "10:00", "11:00", "12:00", "1:00", "2:00", "3:00", "4:00", "5:30"]
             value = "sunday"
-        } else if day == 2 {
+        }
+        
+        else if day == 2 {
+            hourOfDay = ["6","7","8", "9", "10", "11", "12", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
             value = "monday"
-        } else if day == 3 {
+        }
+        
+        else if day == 3 {
+            hourOfDay = ["6:00","7:00","8:00", "9:00", "10:00", "11:00", "12:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00", "10:00"]
             value = "tuesday"
-        } else if day == 4 {
+        }
+        
+        else if day == 4 {
+            hourOfDay = ["6:00","7:00","8:00", "9:00", "10:00", "11:00", "12:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00", "10:00"]
             value = "wednesday"
-        } else if day == 5 {
+        }
+        
+        else if day == 5 {
+            hourOfDay = ["6:00","7:00","8:00", "9:00", "10:00", "11:00", "12:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00", "10:00"]
             value = "thursday"
-        } else if day == 6 {
+        }
+        
+        else if day == 6 {
+            hourOfDay = ["6:00","7:00","8:00", "9:00", "10:00", "11:00", "12:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00"]
             value = "friday"
-        } else {
+        }
+        
+        else {
+            hourOfDay = ["8:00", "9:00", "10:00", "11:00", "12:00", "1:00", "2:00", "3:00", "4:00", "5:30"]
             value = "saturday"
         }
         

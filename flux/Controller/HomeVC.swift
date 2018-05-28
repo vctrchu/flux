@@ -51,6 +51,11 @@ class HomeVC: UIViewController, ChartViewDelegate {
     func barChartProperties() {
         barChart.chartDescription?.text = ""
         barChart.rightAxis.enabled = false
+        barChart.xAxis.drawGridLinesEnabled = false
+        barChart.xAxis.labelPosition = .bottom
+        barChart.xAxis.centerAxisLabelsEnabled = true
+        barChart.doubleTapToZoomEnabled = false
+
         
         
     }
@@ -217,9 +222,8 @@ class HomeVC: UIViewController, ChartViewDelegate {
     }
     
     @objc func didPullToRefresh() {
-//        numberOfEntriesArray.removeAll()
-//        hourOfDay.removeAll()
-//        retrieveData(Day: determineDay())
+        numberOfEntriesArray.removeAll()
+        retrieveData(Day: determineDay())
         refreshControl.endRefreshing()
     }
     
@@ -289,6 +293,7 @@ extension BarChartView {
         var labels: [String] = []
         
         func stringForValue(_ value: Double, axis: AxisBase?) -> String {
+            
             return labels[Int(value)]
         }
         

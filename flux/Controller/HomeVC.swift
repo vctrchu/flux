@@ -20,47 +20,206 @@ class HomeVC: UIViewController, ChartViewDelegate {
     let refreshControl = UIRefreshControl()
     
     var ref:DatabaseReference?
-    var refHandle: UInt?
     
-    var mondayArray = [String: Int]()
+    var mondayDictionary = [String: Double]()
+    var tuesdayDictionary = [String: Double]()
+    var wednesdayDictionary = [String: Double]()
+    var thursdayDictionary = [String: Double]()
+    var fridayDictionary = [String: Double]()
+    var saturdayDictionary = [String: Double]()
+    var sundayDictionary = [String: Double]()
+    
+    var hourOfDay = [String]()
+    var numberOfEntriesArray = [Double]()
+   
 
     
-    
+
     override func viewDidLoad() {
+        
+        hourOfDay = ["8:00", "9:00", "10:00", "11:00", "12:00", "1:00", "2:00", "3:00", "4:00", "5:30"]
+        
         super.viewDidLoad()
         refreshControl.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
         scrollView.addSubview(refreshControl)
         addNavigationBarTitleImage()
         retrieveData(Day: determineDay())
         
+    }
+    
+    
+    func barChartProperties() {
+        barChart.chartDescription?.text = ""
+        barChart.rightAxis.enabled = false
+        barChart.
         
     }
+    
+
+
+    
 
     
     func retrieveData(Day: String) {
         
         // Set the firebase reference
-        ref = Database.database().reference().child("charts").child("monday")
+        ref = Database.database().reference().child("charts").child(Day)
         
-        ref?.observeSingleEvent(of: .value, with: { (snapshot) in
-            
-            for child in snapshot.children {
-                let snap = child as! DataSnapshot
-                let key = snap.key
-                let value = snap.value as! Int
+        if Day == "monday" {
+            ref?.observeSingleEvent(of: .value, with: { (snapshot) in
                 
-                self.mondayArray[key] = value
+                for child in snapshot.children {
+                    let snap = child as! DataSnapshot
+                    let key = snap.key
+                    let value = snap.value as! Double
+                    
+                    self.mondayDictionary[key] = value
+                    //self.hourOfDay.append(key)
+                    self.numberOfEntriesArray.append(value)
+                    
+                    print(self.mondayDictionary[key]!)
+                    
+                    print("key = \(key) value = \(value)")
+                }
+            })
+        }
+        
+        else if Day == "tuesday" {
+            ref?.observeSingleEvent(of: .value, with: { (snapshot) in
                 
-                print(self.mondayArray[key]!)
+                for child in snapshot.children {
+                    let snap = child as! DataSnapshot
+                    let key = snap.key
+                    let value = snap.value as! Double
+                    
+                    self.tuesdayDictionary[key] = value
+                    
+                    print(self.tuesdayDictionary[key]!)
+                    
+                    print("key = \(key) value = \(value)")
+                }
+            })
+        }
+        
+        else if Day == "wednesday" {
+            ref?.observeSingleEvent(of: .value, with: { (snapshot) in
                 
-                print("key = \(key) value = \(value)")
-            }
-        })
-    
+                for child in snapshot.children {
+                    let snap = child as! DataSnapshot
+                    let key = snap.key
+                    let value = snap.value as! Double
+                    
+                    self.wednesdayDictionary[key] = value
+                    
+                    print(self.wednesdayDictionary[key]!)
+                    
+                    print("key = \(key) value = \(value)")
+                }
+            })
+        }
+        
+        else if Day == "thursday" {
+            ref?.observeSingleEvent(of: .value, with: { (snapshot) in
+                
+                for child in snapshot.children {
+                    let snap = child as! DataSnapshot
+                    let key = snap.key
+                    let value = snap.value as! Double
+                    
+                    self.thursdayDictionary[key] = value
+                    
+                    print(self.thursdayDictionary[key]!)
+                    
+                    print("key = \(key) value = \(value)")
+                }
+            })
+        }
+        
+        else if Day == "friday" {
+            ref?.observeSingleEvent(of: .value, with: { (snapshot) in
+                
+                for child in snapshot.children {
+                    let snap = child as! DataSnapshot
+                    let key = snap.key
+                    let value = snap.value as! Double
+                    
+                    self.fridayDictionary[key] = value
+                    
+                    print(self.fridayDictionary[key]!)
+                    
+                    print("key = \(key) value = \(value)")
+                    
+                }
+                
+
+            })
+        }
+        
+        else if Day == "saturday" {
+            ref?.observeSingleEvent(of: .value, with: { (snapshot) in
+                
+                for child in snapshot.children {
+                    let snap = child as! DataSnapshot
+                    let key = snap.key
+                    let value = snap.value as! Double
+                    
+                    self.saturdayDictionary[key] = value
+                    
+                    print(self.saturdayDictionary[key]!)
+                    
+                    print("key = \(key) value = \(value)")
+                }
+            })
+        }
+        
+        else {
+            ref?.observeSingleEvent(of: .value, with: { (snapshot) in
+                
+                let groupKeys = snapshot.children.compactMap { $0 as? DataSnapshot }.map { $0.key }
+                
+                // This group will keep track of the number of blocks still pending
+                let group = DispatchGroup()
+                
+                for child in snapshot.children {
+                    let snap = child as! DataSnapshot
+                    let key = snap.key
+                    let value = snap.value as! Double
+                    
+                    self.sundayDictionary[key] = value
+                   // self.hourOfDay.append(key)
+                    self.numberOfEntriesArray.append(value)
+                    
+                    
+                    print(self.sundayDictionary[key]!)
+                    
+                    print("key = \(key) value = \(value)")
+                }
+                
+                for groupKey in groupKeys {
+                    group.enter()
+                    self.ref?.child("groups").child(groupKey).child("name").observeSingleEvent(of: .value, with: { snapshot in
+                        group.leave()
+                    })
+                }
+                
+                // We ask to be notified when every block left the group
+                group.notify(queue: .main) {
+                    print("All callbacks are completed")
+                    self.barChart.setBarChartData(xValues: self.hourOfDay, yValues: self.numberOfEntriesArray, label: "Number of Entries")
+                    self.barChart.xAxis.setLabelCount(10, force: true)
+                    self.barChartProperties()
+
+                }
+            })
+        }
+        
+        
     }
     
     @objc func didPullToRefresh() {
-        //determineGymStatus()
+//        numberOfEntriesArray.removeAll()
+//        hourOfDay.removeAll()
+//        retrieveData(Day: determineDay())
         refreshControl.endRefreshing()
     }
     
@@ -123,6 +282,42 @@ class HomeVC: UIViewController, ChartViewDelegate {
     
 }
 
+extension BarChartView {
+    
+    private class BarChartFormatter: NSObject, IAxisValueFormatter {
+        
+        var labels: [String] = []
+        
+        func stringForValue(_ value: Double, axis: AxisBase?) -> String {
+            return labels[Int(value)]
+        }
+        
+        init(labels: [String]) {
+            super.init()
+            self.labels = labels
+        }
+    }
+    
+    func setBarChartData(xValues: [String], yValues: [Double], label: String) {
+        
+        var dataEntries: [BarChartDataEntry] = []
+        
+        for i in 0..<yValues.count {
+            let dataEntry = BarChartDataEntry(x: Double(i), y: yValues[i])
+            dataEntries.append(dataEntry)
+        }
+        
+        let chartDataSet = BarChartDataSet(values: dataEntries, label: label)
+        let chartData = BarChartData(dataSet: chartDataSet)
+        
+        let chartFormatter = BarChartFormatter(labels: xValues)
+        let xAxis = XAxis()
+        xAxis.valueFormatter = chartFormatter
+        self.xAxis.valueFormatter = xAxis.valueFormatter
+        
+        self.data = chartData
+    }
+}
 
 
 

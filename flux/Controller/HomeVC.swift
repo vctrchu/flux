@@ -35,25 +35,24 @@ class HomeVC: UIViewController, ChartViewDelegate {
         
     }
     @IBAction func reloadButtonTapped(_ sender: Any) {
-//        numberOfEntriesArray.removeAll()
-//        retrieveData(Day: determineDay())
+        numberOfEntriesArray.removeAll()
+        retrieveData(Day: determineDay())
      }
     
-    
-//    func barChartProperties() {
-//        barChart.chartDescription?.text = ""
-//        barChart.rightAxis.enabled = false
-//        barChart.xAxis.drawGridLinesEnabled = false
-//        barChart.leftAxis.drawGridLinesEnabled = false
-//        barChart.rightAxis.drawGridLinesEnabled = false
-//        barChart.xAxis.labelPosition = .bottom
-//        //barChart.xAxis.centerAxisLabelsEnabled = true
-//        barChart.doubleTapToZoomEnabled = false
-//        barChart.clipValuesToContentEnabled = false
-//        barChart.xAxis.granularityEnabled = true
-//        barChart.xAxis.granularity = 1.0
-//    }
-    
+    func lineChartProperties() {
+        lineChartView.chartDescription?.text = ""
+        lineChartView.doubleTapToZoomEnabled = false
+        lineChartView.xAxis.drawAxisLineEnabled = false
+        lineChartView.leftAxis.drawGridLinesEnabled = false
+        lineChartView.leftAxis.drawLabelsEnabled = false
+        lineChartView.leftAxis.drawAxisLineEnabled = false
+        lineChartView.rightAxis.drawGridLinesEnabled = false
+        lineChartView.rightAxis.drawLabelsEnabled = false
+        lineChartView.rightAxis.drawAxisLineEnabled = false
+        lineChartView.legend.enabled = false
+        lineChartView.backgroundColor = #colorLiteral(red: 0.9764705882, green: 0.9764705882, blue: 0.9764705882, alpha: 1)
+        lineChartView.animate(xAxisDuration: 2.0, yAxisDuration: 2.0)
+    }
 
     
     func retrieveData(Day: String) {
@@ -94,10 +93,9 @@ class HomeVC: UIViewController, ChartViewDelegate {
                 // We ask to be notified when every block left the group
                 group.notify(queue: .main) {
                     print("All callbacks are completed")
-//                    self.barChartProperties()
-//                    self.barChart.setBarChartData(xValues: self.hourOfDay, yValues: self.numberOfEntriesArray, label: "Number of Entries")
-                    //self.barChart.xAxis.setLabelCount(100, force: true)
-                    
+
+                    self.lineChartProperties()
+                    self.lineChartView.setBarChartData(xValues: self.hourOfDay, yValues: self.numberOfEntriesArray, label: "Number of Entries")
                 }
             })
         
@@ -136,9 +134,9 @@ class HomeVC: UIViewController, ChartViewDelegate {
                 // We ask to be notified when every block left the group
                 group.notify(queue: .main) {
                     print("All callbacks are completed")
-//                    self.barChartProperties()
-//                    self.barChart.setBarChartData(xValues: self.hourOfDay, yValues: self.numberOfEntriesArray, label: "Number of Entries")
-                    //self.barChart.xAxis.setLabelCount(100, force: true)
+                    
+                    self.lineChartProperties()
+                    self.lineChartView.setBarChartData(xValues: self.hourOfDay, yValues: self.numberOfEntriesArray, label: "Number of Entries")
                     
                 }
             })
@@ -177,10 +175,11 @@ class HomeVC: UIViewController, ChartViewDelegate {
                 
                 // We ask to be notified when every block left the group
                 group.notify(queue: .main) {
+                    
                     print("All callbacks are completed")
-//                    self.barChartProperties()
+                    
+                    self.lineChartProperties()
                     self.lineChartView.setBarChartData(xValues: self.hourOfDay, yValues: self.numberOfEntriesArray, label: "Number of Entries")
-                    //self.barChart.xAxis.setLabelCount(100, force: true)
                     
                 }
             })
@@ -189,16 +188,39 @@ class HomeVC: UIViewController, ChartViewDelegate {
         else if Day == "thursday" {
             ref?.observeSingleEvent(of: .value, with: { (snapshot) in
                 
+                let groupKeys = snapshot.children.compactMap { $0 as? DataSnapshot }.map { $0.key }
+                
+                // This group will keep track of the number of blocks still pending
+                let group = DispatchGroup()
+                
                 for child in snapshot.children {
                     let snap = child as! DataSnapshot
                     let key = snap.key
                     let value = snap.value as! Double
                     
                     self.thursdayDictionary[key] = value
+                    // self.hourOfDay.append(key)
+                    self.numberOfEntriesArray.append(value)
+                    
                     
                     print(self.thursdayDictionary[key]!)
                     
                     print("key = \(key) value = \(value)")
+                }
+                
+                for groupKey in groupKeys {
+                    group.enter()
+                    self.ref?.child("groups").child(groupKey).child("name").observeSingleEvent(of: .value, with: { snapshot in
+                        group.leave()
+                    })
+                }
+                
+                // We ask to be notified when every block left the group
+                group.notify(queue: .main) {
+                    print("All callbacks are completed")
+                    self.lineChartProperties()
+                    self.lineChartView.setBarChartData(xValues: self.hourOfDay, yValues: self.numberOfEntriesArray, label: "Number of Entries")
+                    
                 }
             })
         }
@@ -206,36 +228,79 @@ class HomeVC: UIViewController, ChartViewDelegate {
         else if Day == "friday" {
             ref?.observeSingleEvent(of: .value, with: { (snapshot) in
                 
+                let groupKeys = snapshot.children.compactMap { $0 as? DataSnapshot }.map { $0.key }
+                
+                // This group will keep track of the number of blocks still pending
+                let group = DispatchGroup()
+                
                 for child in snapshot.children {
                     let snap = child as! DataSnapshot
                     let key = snap.key
                     let value = snap.value as! Double
                     
                     self.fridayDictionary[key] = value
+                    // self.hourOfDay.append(key)
+                    self.numberOfEntriesArray.append(value)
+                    
                     
                     print(self.fridayDictionary[key]!)
                     
                     print("key = \(key) value = \(value)")
-                    
                 }
                 
-
+                for groupKey in groupKeys {
+                    group.enter()
+                    self.ref?.child("groups").child(groupKey).child("name").observeSingleEvent(of: .value, with: { snapshot in
+                        group.leave()
+                    })
+                }
+                
+                // We ask to be notified when every block left the group
+                group.notify(queue: .main) {
+                    print("All callbacks are completed")
+                    self.lineChartProperties()
+                    self.lineChartView.setBarChartData(xValues: self.hourOfDay, yValues: self.numberOfEntriesArray, label: "Number of Entries")
+                    
+                }
             })
         }
         
         else if Day == "saturday" {
             ref?.observeSingleEvent(of: .value, with: { (snapshot) in
                 
+                let groupKeys = snapshot.children.compactMap { $0 as? DataSnapshot }.map { $0.key }
+                
+                // This group will keep track of the number of blocks still pending
+                let group = DispatchGroup()
+                
                 for child in snapshot.children {
                     let snap = child as! DataSnapshot
                     let key = snap.key
                     let value = snap.value as! Double
                     
-                    self.saturdayDictionary[key] = value
+                    self.sundayDictionary[key] = value
+                    // self.hourOfDay.append(key)
+                    self.numberOfEntriesArray.append(value)
+                    
                     
                     print(self.saturdayDictionary[key]!)
                     
                     print("key = \(key) value = \(value)")
+                }
+                
+                for groupKey in groupKeys {
+                    group.enter()
+                    self.ref?.child("groups").child(groupKey).child("name").observeSingleEvent(of: .value, with: { snapshot in
+                        group.leave()
+                    })
+                }
+                
+                // We ask to be notified when every block left the group
+                group.notify(queue: .main) {
+                    print("All callbacks are completed")
+                    self.lineChartProperties()
+                    self.lineChartView.setBarChartData(xValues: self.hourOfDay, yValues: self.numberOfEntriesArray, label: "Number of Entries")
+                    
                 }
             })
         }
@@ -273,9 +338,8 @@ class HomeVC: UIViewController, ChartViewDelegate {
                 // We ask to be notified when every block left the group
                 group.notify(queue: .main) {
                     print("All callbacks are completed")
-//                    self.barChart.setBarChartData(xValues: self.hourOfDay, yValues: self.numberOfEntriesArray, label: "Number of Entries")
-//                    self.barChart.xAxis.setLabelCount(10, force: true)
-                    //self.barChartProperties()
+                    self.lineChartProperties()
+                    self.lineChartView.setBarChartData(xValues: self.hourOfDay, yValues: self.numberOfEntriesArray, label: "Number of Entries")
 
                 }
             })
@@ -395,6 +459,20 @@ extension LineChartView {
         let xAxis = XAxis()
         xAxis.valueFormatter = chartFormatter
         self.xAxis.valueFormatter = xAxis.valueFormatter
+        
+        // Line chart color gradient
+        let coloTop = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1).cgColor
+        let colorBottom = #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1).cgColor
+        let gradientColors = [coloTop, colorBottom] as CFArray // Colors of the gradient
+        let colorLocations:[CGFloat] = [0.7, 0.0] // Positioning of the gradient
+        let gradient = CGGradient.init(colorsSpace: CGColorSpaceCreateDeviceRGB(), colors: gradientColors, locations: colorLocations) // Gradient Object
+        chartDataSet.fill = Fill.fillWithLinearGradient(gradient!, angle: 90.0) // Set the Gradient
+        chartDataSet.drawFilledEnabled = true // Draw the Gradient
+        
+        chartData.setDrawValues(false)
+        chartDataSet.drawCirclesEnabled = false
+        chartDataSet.mode = .cubicBezier
+
         
         self.data = chartData
 

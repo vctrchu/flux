@@ -79,7 +79,7 @@
                                 </constraints>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="csw-aT-yyx">
-                                <rect key="frame" x="54.5" y="250" width="266.5" height="134"/>
+                                <rect key="frame" x="55" y="250" width="266.5" height="134"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="E4o-og-5B0">
                                         <rect key="frame" x="0.0" y="44" width="85.5" height="46.5"/>
@@ -104,12 +104,20 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="wVu-gy-kTk">
                                         <rect key="frame" x="181" y="44" width="85.5" height="46.5"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="173" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aua-12-E9P">
-                                                <rect key="frame" x="25.5" y="0.0" width="34.5" height="26.5"/>
-                                                <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="20"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
+                                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="nTR-8P-f88">
+                                                <rect key="frame" x="17" y="0.0" width="51.5" height="26.5"/>
+                                                <subviews>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="redDownArrow" translatesAutoresizingMaskIntoConstraints="NO" id="sdv-Sn-pOA">
+                                                        <rect key="frame" x="0.0" y="3.5" width="15" height="19"/>
+                                                    </imageView>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="173" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aua-12-E9P">
+                                                        <rect key="frame" x="17" y="0.0" width="34.5" height="26.5"/>
+                                                        <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="20"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                            </stackView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Next Hour" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m8h-OI-zj2">
                                                 <rect key="frame" x="9.5" y="26.5" width="67" height="20"/>
                                                 <fontDescription key="fontDescription" name="Roboto-Light" family="Roboto" pointSize="15"/>
@@ -155,6 +163,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="currentStatusImage" destination="tfq-QK-Ucw" id="jH1-6h-NZN"/>
                         <outlet property="lineChartView" destination="lYq-bJ-rDx" id="dtX-pR-bdn"/>
                     </connections>
                 </viewController>
@@ -191,6 +200,7 @@
         <image name="ReloadButtonIcon" width="24" height="22"/>
         <image name="currentStatusLabel" width="203" height="19"/>
         <image name="notBusyLabel" width="177" height="25"/>
+        <image name="redDownArrow" width="15" height="19"/>
         <image name="settings-icon" width="26" height="26"/>
     </resources>
     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

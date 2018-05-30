@@ -12,9 +12,9 @@ import FirebaseDatabase
 
 class HomeVC: UIViewController, ChartViewDelegate {
 
-    @IBOutlet weak var currentStatusText: UITextField!
     @IBOutlet weak var lineChartView: LineChartView!
-        
+    @IBOutlet weak var currentStatusImage: UIImageView!
+    
     var ref:DatabaseReference?
     
     var mondayDictionary = [String: Double]()
@@ -31,7 +31,7 @@ class HomeVC: UIViewController, ChartViewDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        //retrieveData(Day: determineDay())
+        retrieveData(Day: determineDay())
         
     }
     @IBAction func reloadButtonTapped(_ sender: Any) {
@@ -179,7 +179,7 @@ class HomeVC: UIViewController, ChartViewDelegate {
                 group.notify(queue: .main) {
                     print("All callbacks are completed")
 //                    self.barChartProperties()
-//                    self.barChart.setBarChartData(xValues: self.hourOfDay, yValues: self.numberOfEntriesArray, label: "Number of Entries")
+                    self.lineChartView.setBarChartData(xValues: self.hourOfDay, yValues: self.numberOfEntriesArray, label: "Number of Entries")
                     //self.barChart.xAxis.setLabelCount(100, force: true)
                     
                 }
@@ -362,7 +362,7 @@ class HomeVC: UIViewController, ChartViewDelegate {
     
 }
 
-extension BarChartView {
+extension LineChartView {
     
     private class BarChartFormatter: NSObject, IAxisValueFormatter {
         
@@ -381,15 +381,15 @@ extension BarChartView {
     
     func setBarChartData(xValues: [String], yValues: [Double], label: String) {
         
-        var dataEntries: [BarChartDataEntry] = []
+        var dataEntries: [ChartDataEntry] = []
         
         for i in 0..<yValues.count {
             let dataEntry = BarChartDataEntry(x: Double(i), y: yValues[i])
             dataEntries.append(dataEntry)
         }
         
-        let chartDataSet = BarChartDataSet(values: dataEntries, label: label)
-        let chartData = BarChartData(dataSet: chartDataSet)
+        let chartDataSet = LineChartDataSet(values: dataEntries, label: label)
+        let chartData = LineChartData(dataSet: chartDataSet)
         
         let chartFormatter = BarChartFormatter(labels: xValues)
         let xAxis = XAxis()
@@ -397,6 +397,7 @@ extension BarChartView {
         self.xAxis.valueFormatter = xAxis.valueFormatter
         
         self.data = chartData
+
     }
 }
 

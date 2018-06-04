@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -55,7 +55,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lYq-bJ-rDx" customClass="LineChartView" customModule="Charts">
-                                <rect key="frame" x="0.0" y="404" width="375" height="263"/>
+                                <rect key="frame" x="5" y="404" width="365" height="263"/>
                                 <color key="backgroundColor" red="0.97647058823529409" green="0.97647058823529409" blue="0.97647058823529409" alpha="1" colorSpace="calibratedRGB"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" notEnabled="YES"/>
@@ -79,13 +79,13 @@
                                 </constraints>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="csw-aT-yyx">
-                                <rect key="frame" x="57.5" y="250" width="262" height="134"/>
+                                <rect key="frame" x="56.5" y="250" width="262" height="134"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="E4o-og-5B0">
                                         <rect key="frame" x="0.0" y="44" width="84" height="46.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="142" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ukG-bk-HbP">
-                                                <rect key="frame" x="24.5" y="0.0" width="34.5" height="26.5"/>
+                                                <rect key="frame" x="25" y="0.0" width="34.5" height="26.5"/>
                                                 <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="20"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -105,7 +105,7 @@
                                         <rect key="frame" x="178" y="44" width="84" height="46.5"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="nTR-8P-f88">
-                                                <rect key="frame" x="16" y="0.0" width="51.5" height="26.5"/>
+                                                <rect key="frame" x="16.5" y="0.0" width="51.5" height="26.5"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="redDownArrow" translatesAutoresizingMaskIntoConstraints="NO" id="sdv-Sn-pOA">
                                                         <rect key="frame" x="0.0" y="3.5" width="15" height="19"/>
@@ -119,7 +119,7 @@
                                                 </subviews>
                                             </stackView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Next Hour" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m8h-OI-zj2">
-                                                <rect key="frame" x="9" y="26.5" width="65.5" height="20"/>
+                                                <rect key="frame" x="9.5" y="26.5" width="65.5" height="20"/>
                                                 <fontDescription key="fontDescription" name="Roboto-Thin" family="Roboto" pointSize="15"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -133,11 +133,11 @@
                         <constraints>
                             <constraint firstItem="tfq-QK-Ucw" firstAttribute="centerX" secondItem="Rug-hZ-7RE" secondAttribute="centerX" id="6Fx-1j-m7B"/>
                             <constraint firstItem="tfq-QK-Ucw" firstAttribute="top" secondItem="3re-0b-2vT" secondAttribute="bottom" constant="34" id="Eq3-dp-Q4r"/>
-                            <constraint firstItem="lYq-bJ-rDx" firstAttribute="leading" secondItem="DHU-Qb-FKD" secondAttribute="leading" id="P5f-Ye-BKT"/>
+                            <constraint firstItem="lYq-bJ-rDx" firstAttribute="leading" secondItem="DHU-Qb-FKD" secondAttribute="leading" constant="5" id="P5f-Ye-BKT"/>
                             <constraint firstItem="3re-0b-2vT" firstAttribute="top" secondItem="DHU-Qb-FKD" secondAttribute="top" constant="20" id="SJl-Kc-Xc2"/>
                             <constraint firstItem="csw-aT-yyx" firstAttribute="centerX" secondItem="Rug-hZ-7RE" secondAttribute="centerX" id="U7a-6G-ZYD"/>
                             <constraint firstItem="lYq-bJ-rDx" firstAttribute="top" secondItem="csw-aT-yyx" secondAttribute="bottom" constant="20" id="XSG-dC-Cxg"/>
-                            <constraint firstItem="lYq-bJ-rDx" firstAttribute="trailing" secondItem="DHU-Qb-FKD" secondAttribute="trailing" id="aht-Or-PFh"/>
+                            <constraint firstItem="lYq-bJ-rDx" firstAttribute="trailing" secondItem="DHU-Qb-FKD" secondAttribute="trailing" constant="-5" id="aht-Or-PFh"/>
                             <constraint firstItem="lYq-bJ-rDx" firstAttribute="bottom" secondItem="DHU-Qb-FKD" secondAttribute="bottom" id="ezE-lb-UMB"/>
                             <constraint firstItem="3re-0b-2vT" firstAttribute="centerX" secondItem="Rug-hZ-7RE" secondAttribute="centerX" id="uDL-wP-k9M"/>
                         </constraints>

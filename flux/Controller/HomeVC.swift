@@ -15,6 +15,8 @@ class HomeVC: UIViewController, ChartViewDelegate {
     @IBOutlet weak var lineChartView: LineChartView!
     @IBOutlet weak var currentStatusImage: UIImageView!
     
+    @IBOutlet weak var busyStatusImage: UIImageView!
+    @IBOutlet weak var nextHourEntriesLabel: UILabel!
     @IBOutlet weak var currentEntriesLabel: UILabel!
     var ref:DatabaseReference?
     
@@ -153,11 +155,59 @@ class HomeVC: UIViewController, ChartViewDelegate {
                 print("All callbacks are completed")
                 
                 self.entriesOfCurrentHour(Day: self.determineDay())
+                self.entriesOfNextHour(Day: self.determineDay())
+                self.determineBusyLevel(Entries: self.getEntriesOfCurrentHour(Day: self.determineDay()))
                 self.lineChartProperties()
                 self.lineChartView.setBarChartData(xValues: self.hourOfDay, yValues: self.numberOfEntriesArray, label: "Number of Entries")
             }
         })
     }
+    
+    func getEntriesOfCurrentHour(Day: String) -> Int {
+        
+        let date = Date()
+        let calendar = Calendar.current
+        let hour = String(calendar.component(.hour, from: date))
+        var value = 0
+        
+        switch Day {
+        case "monday":
+            value = Int(mondayDictionary[hour]!)
+        case "tuesday":
+            value = Int(tuesdayDictionary[hour]!)
+        case "wednesday":
+            value = Int(wednesdayDictionary[hour]!)
+        case "thursday":
+            value = Int(thursdayDictionary[hour]!)
+        case "friday":
+            value = Int(fridayDictionary[hour]!)
+        case "saturday":
+            value = Int(saturdayDictionary[hour]!)
+        case "sunday":
+            value = Int(sundayDictionary[hour]!)
+            
+        default:()
+        }
+        
+        return value
+    }
+    
+    func determineBusyLevel(Entries: Int) {
+        
+        if Entries > 150 {
+            busyStatusImage.image = #imageLiteral(resourceName: "busyStatusLabel")
+        }
+        
+        else if Entries < 150 && Entries > 100{
+            busyStatusImage.image = #imageLiteral(resourceName: "moderateBusyStatusLabel")
+        }
+        
+        else {
+            busyStatusImage.image = #imageLiteral(resourceName: "notBusyLabel")
+        }
+        
+    }
+    
     
     func entriesOfCurrentHour(Day: String) {
         
@@ -188,6 +238,40 @@ class HomeVC: UIViewController, ChartViewDelegate {
             let value = String(format: "%.0f", sundayDictionary[hour]!)
             currentEntriesLabel.text = value
             
+        default:()
+        }
+        
+    }
+    
+    func entriesOfNextHour(Day: String) {
+        
+        let date = Date()
+        let calendar = Calendar.current
+        let hour = String(calendar.component(.hour, from: date) + 1)
+        
+        switch Day {
+        case "monday":
+            let value = String(format: "%.0f", mondayDictionary[hour]!)
+            nextHourEntriesLabel.text = value
+        case "tuesday":
+            let value = String(format: "%.0f", tuesdayDictionary[hour]!)
+            nextHourEntriesLabel.text = value
+        case "wednesday":
+            let value = String(format: "%.0f", wednesdayDictionary[hour]!)
+            nextHourEntriesLabel.text = value
+        case "thursday":
+            let value = String(format: "%.0f", thursdayDictionary[hour]!)
+            nextHourEntriesLabel.text = value
+        case "friday":
+            let value = String(format: "%.0f", fridayDictionary[hour]!)
+            nextHourEntriesLabel.text = value
+        case "saturday":
+            let value = String(format: "%.0f", saturdayDictionary[hour]!)
+            nextHourEntriesLabel.text = value
+        case "sunday":
+            let value = String(format: "%.0f", sundayDictionary[hour]!)
+            nextHourEntriesLabel.text = value
+
         default:()
         }
         

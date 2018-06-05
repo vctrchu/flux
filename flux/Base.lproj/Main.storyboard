@@ -84,8 +84,8 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="E4o-og-5B0">
                                         <rect key="frame" x="0.0" y="44" width="84" height="46.5"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="142" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ukG-bk-HbP">
-                                                <rect key="frame" x="25" y="0.0" width="34.5" height="26.5"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="N/A" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ukG-bk-HbP">
+                                                <rect key="frame" x="24.5" y="0.0" width="35.5" height="26.5"/>
                                                 <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="20"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -105,13 +105,13 @@
                                         <rect key="frame" x="178" y="44" width="84" height="46.5"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="nTR-8P-f88">
-                                                <rect key="frame" x="16.5" y="0.0" width="51.5" height="26.5"/>
+                                                <rect key="frame" x="16" y="0.0" width="52.5" height="26.5"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="redDownArrow" translatesAutoresizingMaskIntoConstraints="NO" id="sdv-Sn-pOA">
                                                         <rect key="frame" x="0.0" y="3.5" width="15" height="19"/>
                                                     </imageView>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="173" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aua-12-E9P">
-                                                        <rect key="frame" x="17" y="0.0" width="34.5" height="26.5"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="N/A" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aua-12-E9P">
+                                                        <rect key="frame" x="17" y="0.0" width="35.5" height="26.5"/>
                                                         <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="20"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
@@ -163,9 +163,11 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="busyStatusImage" destination="tfq-QK-Ucw" id="AUX-oF-4Y6"/>
                         <outlet property="currentEntriesLabel" destination="ukG-bk-HbP" id="U0n-rz-mfx"/>
                         <outlet property="currentStatusImage" destination="tfq-QK-Ucw" id="jH1-6h-NZN"/>
                         <outlet property="lineChartView" destination="lYq-bJ-rDx" id="dtX-pR-bdn"/>
+                        <outlet property="nextHourEntriesLabel" destination="Aua-12-E9P" id="jQJ-Iy-0GZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GcQ-zo-Qck" userLabel="First Responder" sceneMemberID="firstResponder"/>

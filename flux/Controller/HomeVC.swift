@@ -15,6 +15,7 @@ class HomeVC: UIViewController, ChartViewDelegate {
     @IBOutlet weak var lineChartView: LineChartView!
     @IBOutlet weak var currentStatusImage: UIImageView!
     
+    @IBOutlet weak var currentEntriesLabel: UILabel!
     var ref:DatabaseReference?
     
     var hourOfDay = [String]()
@@ -152,6 +153,7 @@ class HomeVC: UIViewController, ChartViewDelegate {
             group.notify(queue: .main) {
                 print("All callbacks are completed")
                 
+                self.entriesOfCurrentHour(Day: Day)
                 self.lineChartProperties()
                 self.lineChartView.setBarChartData(xValues: self.hourOfDay, yValues: self.numberOfEntriesArray, label: "Number of Entries")
             }
@@ -162,9 +164,33 @@ class HomeVC: UIViewController, ChartViewDelegate {
         
         let date = Date()
         let calendar = Calendar.current
-        let hour = calendar.component(.hour, from: date)
+        let hour = String(calendar.component(.hour, from: date))
         
-
+        switch Day {
+        case "monday":
+            let value = String(format: "%.0f", mondayDictionary[hour]!)
+            currentEntriesLabel.text = value
+        case "tuesday":
+            let value = String(format: "%.0f", tuesdayDictionary[hour]!)
+            currentEntriesLabel.text = value
+        case "wednesday":
+            let value = String(format: "%.0f", wednesdayDictionary[hour]!)
+            currentEntriesLabel.text = value
+        case "thursday":
+            let value = String(format: "%.0f", thursdayDictionary[hour]!)
+            currentEntriesLabel.text = value
+        case "friday":
+            let value = String(format: "%.0f", fridayDictionary[hour]!)
+            currentEntriesLabel.text = value
+        case "saturday":
+            let value = String(format: "%.0f", saturdayDictionary[hour]!)
+            currentEntriesLabel.text = value
+        case "sunday":
+            let value = String(format: "%.0f", sundayDictionary[hour]!)
+            currentEntriesLabel.text = value
+            
+        default:()
+        }
         
     }
     

@@ -163,6 +163,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="currentEntriesLabel" destination="ukG-bk-HbP" id="U0n-rz-mfx"/>
                         <outlet property="currentStatusImage" destination="tfq-QK-Ucw" id="jH1-6h-NZN"/>
                         <outlet property="lineChartView" destination="lYq-bJ-rDx" id="dtX-pR-bdn"/>
                     </connections>

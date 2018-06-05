@@ -37,6 +37,7 @@ class HomeVC: UIViewController, ChartViewDelegate {
     }
     @IBAction func reloadButtonTapped(_ sender: Any) {
         numberOfEntriesArray.removeAll()
+        hourOfDay.removeAll()
         retrieveDataForDay(Day: determineDay())
      }
     
@@ -51,6 +52,7 @@ class HomeVC: UIViewController, ChartViewDelegate {
         lineChartView.rightAxis.drawLabelsEnabled = false
         lineChartView.rightAxis.drawAxisLineEnabled = false
         lineChartView.legend.enabled = false
+        lineChartView.setScaleEnabled(false)
         lineChartView.xAxis.labelTextColor = #colorLiteral(red: 0.8374180198, green: 0.8374378085, blue: 0.8374271393, alpha: 1)
         lineChartView.animate(xAxisDuration: 2.0, yAxisDuration: 2.0)
     }
@@ -93,13 +95,10 @@ class HomeVC: UIViewController, ChartViewDelegate {
                 let snap = child as! DataSnapshot
                 let key = snap.key
                 let value = snap.value as! Double
-                
+                    
                 self.numberOfEntriesArray.append(value)
                 self.addToDictionary(Day: Day, Key: key, Value: value)
-                
-                print(self.mondayDictionary[key]!)
-                
-                print("key = \(key) value = \(value)")
+                    
             }
             
             for groupKey in groupKeys {
@@ -113,7 +112,7 @@ class HomeVC: UIViewController, ChartViewDelegate {
             group.notify(queue: .main) {
                 print("All callbacks are completed")
                 
-                self.retrieveHoursOfDay(Day: Day)
+                self.retrieveHoursOfDay(Day: self.determineDayForHours())
             }
         })
 
@@ -153,7 +152,7 @@ class HomeVC: UIViewController, ChartViewDelegate {
             group.notify(queue: .main) {
                 print("All callbacks are completed")
                 
-                self.entriesOfCurrentHour(Day: Day)
+                self.entriesOfCurrentHour(Day: self.determineDay())
                 self.lineChartProperties()
                 self.lineChartView.setBarChartData(xValues: self.hourOfDay, yValues: self.numberOfEntriesArray, label: "Number of Entries")
             }
@@ -231,6 +230,27 @@ class HomeVC: UIViewController, ChartViewDelegate {
         return value
     }
     
+    func determineDayForHours() -> String {
+        let date = Date()
+        let calendar = Calendar.current
+        let day = calendar.component(.weekday, from: date)
+        var value = ""
+        
+        if day == 2 || day == 3 || day == 4 || day == 5 {
+            value = "mondayToThursday"
+        }
+        
+        else if day == 6 {
+            value = "friday"
+        }
+        
+        else {
+            value = "saturdaySunday"
+        }
+        
+        return value
+    }
+    
     
     func addNavigationBarTitleImage() {
         let titleImageView = UIImageView(image: #imageLiteral(resourceName: "FluxNavBarIcon"))
@@ -239,23 +259,6 @@ class HomeVC: UIViewController, ChartViewDelegate {
         
         navigationItem.titleView = titleImageView
     }
-    
-//    func lowStatus() {
-//        statusImage.image = #imageLiteral(resourceName: "NotBusyBar")
-//        statusDescriptionLabel.text = "Currently the gym is not busy."
-//    }
-//
-//    func moderateStatus() {
-//        statusImage.image = #imageLiteral(resourceName: "ModerateBusyBar")
-//        statusDescriptionLabel.text = "Currently the gym moderately busy."
-//    }
-//
-//    func highStatus() {
-//        statusImage.image = #imageLiteral(resourceName: "HighBusyBar")
-//        statusDescriptionLabel.text = "Currently the gym is busy."
-//    }
-
-
 
     
 }

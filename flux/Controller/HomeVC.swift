@@ -20,6 +20,14 @@ class HomeVC: UIViewController, ChartViewDelegate {
     var hourOfDay = [String]()
     var numberOfEntriesArray = [Double]()
     
+    var mondayDictionary = [String: Double]()
+    var tuesdayDictionary = [String: Double]()
+    var wednesdayDictionary = [String: Double]()
+    var thursdayDictionary = [String: Double]()
+    var fridayDictionary = [String: Double]()
+    var saturdayDictionary = [String: Double]()
+    var sundayDictionary = [String: Double]()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,9 +50,30 @@ class HomeVC: UIViewController, ChartViewDelegate {
         lineChartView.rightAxis.drawLabelsEnabled = false
         lineChartView.rightAxis.drawAxisLineEnabled = false
         lineChartView.legend.enabled = false
-        lineChartView.backgroundColor = #colorLiteral(red: 0.9764705882, green: 0.9764705882, blue: 0.9764705882, alpha: 1)
         lineChartView.xAxis.labelTextColor = #colorLiteral(red: 0.8374180198, green: 0.8374378085, blue: 0.8374271393, alpha: 1)
         lineChartView.animate(xAxisDuration: 2.0, yAxisDuration: 2.0)
+    }
+    
+    func addToDictionary(Day: String, Key: String, Value: Double) {
+        
+        switch Day {
+        case "monday":
+            mondayDictionary[Key] = Value
+        case "tuesday":
+            tuesdayDictionary[Key] = Value
+        case "wednesday":
+            wednesdayDictionary[Key] = Value
+        case "thursday":
+            thursdayDictionary[Key] = Value
+        case "friday":
+            fridayDictionary[Key] = Value
+        case "saturday":
+            saturdayDictionary[Key] = Value
+        case "sunday":
+            sundayDictionary[Key] = Value
+            
+        default: ()
+        }
     }
     
     func retrieveDataForDay(Day: String) {
@@ -65,8 +94,9 @@ class HomeVC: UIViewController, ChartViewDelegate {
                 let value = snap.value as! Double
                 
                 self.numberOfEntriesArray.append(value)
+                self.addToDictionary(Day: Day, Key: key, Value: value)
                 
-                //print(self.mondayDictionary[key]!)
+                print(self.mondayDictionary[key]!)
                 
                 print("key = \(key) value = \(value)")
             }
@@ -126,6 +156,16 @@ class HomeVC: UIViewController, ChartViewDelegate {
                 self.lineChartView.setBarChartData(xValues: self.hourOfDay, yValues: self.numberOfEntriesArray, label: "Number of Entries")
             }
         })
+    }
+    
+    func entriesOfCurrentHour(Day: String) {
+        
+        let date = Date()
+        let calendar = Calendar.current
+        let hour = calendar.component(.hour, from: date)
+        
+
+        
     }
     
     func determineDay() -> String {

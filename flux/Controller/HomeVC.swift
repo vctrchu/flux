@@ -19,7 +19,11 @@ class HomeVC: UIViewController, ChartViewDelegate {
     @IBOutlet weak var busyStatusImage: UIImageView!
     @IBOutlet weak var nextHourEntriesLabel: UILabel!
     @IBOutlet weak var currentEntriesLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var timeLabel: UILabel!
+    
     var ref:DatabaseReference?
+    var timer = Timer()
     
     var hourOfDay = [String]()
     var numberOfEntriesArray = [Double]()
@@ -35,6 +39,8 @@ class HomeVC: UIViewController, ChartViewDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector:#selector(self.tick) , userInfo: nil, repeats: true)
+        addNavigationBarTitleImage()
         retrieveDataForDay(Day: determineDay())
         
     }
@@ -60,6 +66,23 @@ class HomeVC: UIViewController, ChartViewDelegate {
         lineChartView.animate(xAxisDuration: 2.0, yAxisDuration: 2.0)
     }
     
+    
+    @objc func tick() {
+        
+        let date = Date()
+        let format = "MMM-dd"
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = format
+        
+        let value = dateFormatter.string(from: date)
+        
+        timeLabel.text = DateFormatter.localizedString(from: Date(),
+                                                              dateStyle: .none,
+                                                              timeStyle: .short)
+        dateLabel.text = value
+        
+    }
+    
     func addToDictionary(Day: String, Key: String, Value: Double) {
         
         switch Day {
@@ -81,6 +104,8 @@ class HomeVC: UIViewController, ChartViewDelegate {
         default: ()
         }
     }
+    
+    
     
     func retrieveDataForDay(Day: String) {
         
@@ -136,7 +161,6 @@ class HomeVC: UIViewController, ChartViewDelegate {
             
             for child in snapshot.children {
                 let snap = child as! DataSnapshot
-                let key = snap.key
                 let value = snap.value as! String
                 
                 self.hourOfDay.append(value)
@@ -376,7 +400,7 @@ class HomeVC: UIViewController, ChartViewDelegate {
     
     
     func addNavigationBarTitleImage() {
-        let titleImageView = UIImageView(image: #imageLiteral(resourceName: "FluxNavBarIcon"))
+        let titleImageView = UIImageView(image: #imageLiteral(resourceName: "currentStatusLabel"))
         titleImageView.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
         titleImageView.contentMode = .scaleAspectFit
         

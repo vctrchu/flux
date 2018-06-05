@@ -199,34 +199,24 @@ class HomeVC: UIViewController, ChartViewDelegate {
         let day = calendar.component(.weekday, from: date)
         var value = ""
         
-        if day == 1 {
+        switch day {
+        case 1:
             value = "sunday"
-        }
-        
-        else if day == 2 {
+        case 2:
             value = "monday"
-        }
-        
-        else if day == 3 {
+        case 3:
             value = "tuesday"
-        }
-        
-        else if day == 4 {
+        case 4:
             value = "wednesday"
-        }
-        
-        else if day == 5 {
+        case 5:
             value = "thursday"
-        }
-        
-        else if day == 6 {
+        case 6:
             value = "friday"
-        }
-        
-        else {
+        case 7:
             value = "saturday"
+        default: ()
         }
-        
+    
         return value
     }
     

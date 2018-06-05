@@ -15,6 +15,7 @@ class HomeVC: UIViewController, ChartViewDelegate {
     @IBOutlet weak var lineChartView: LineChartView!
     @IBOutlet weak var currentStatusImage: UIImageView!
     
+    @IBOutlet weak var arrowImage: UIImageView!
     @IBOutlet weak var busyStatusImage: UIImageView!
     @IBOutlet weak var nextHourEntriesLabel: UILabel!
     @IBOutlet weak var currentEntriesLabel: UILabel!
@@ -156,6 +157,7 @@ class HomeVC: UIViewController, ChartViewDelegate {
                 
                 self.entriesOfCurrentHour(Day: self.determineDay())
                 self.entriesOfNextHour(Day: self.determineDay())
+                self.compareCurrentHourToNext()
                 self.determineBusyLevel(Entries: self.getEntriesOfCurrentHour(Day: self.determineDay()))
                 self.lineChartProperties()
                 self.lineChartView.setBarChartData(xValues: self.hourOfDay, yValues: self.numberOfEntriesArray, label: "Number of Entries")
@@ -192,6 +194,35 @@ class HomeVC: UIViewController, ChartViewDelegate {
         return value
     }
     
+    func getEntriesOfNextHour(Day: String) -> Int {
+        
+        let date = Date()
+        let calendar = Calendar.current
+        let hour = String(calendar.component(.hour, from: date) + 1)
+        var value = 0
+        
+        switch Day {
+        case "monday":
+            value = Int(mondayDictionary[hour]!)
+        case "tuesday":
+            value = Int(tuesdayDictionary[hour]!)
+        case "wednesday":
+            value = Int(wednesdayDictionary[hour]!)
+        case "thursday":
+            value = Int(thursdayDictionary[hour]!)
+        case "friday":
+            value = Int(fridayDictionary[hour]!)
+        case "saturday":
+            value = Int(saturdayDictionary[hour]!)
+        case "sunday":
+            value = Int(sundayDictionary[hour]!)
+            
+        default:()
+        }
+        
+        return value
+    }
+    
     func determineBusyLevel(Entries: Int) {
         
         if Entries > 150 {
@@ -204,6 +235,24 @@ class HomeVC: UIViewController, ChartViewDelegate {
         
         else {
             busyStatusImage.image = #imageLiteral(resourceName: "notBusyLabel")
+        }
+        
+    }
+    
+    func compareCurrentHourToNext() {
+        
+        let date = Date()
+        let calendar = Calendar.current
+        let hour = String(calendar.component(.hour, from: date))
+        let currentHour = getEntriesOfCurrentHour(Day: determineDay())
+        let nextHour = getEntriesOfNextHour(Day: determineDay())
+        
+        if currentHour > nextHour {
+            arrowImage.image = #imageLiteral(resourceName: "downRedArrow")
+        }
+        
+        else {
+            arrowImage.image = #imageLiteral(resourceName: "upGreenArrow")
         }
         
     }

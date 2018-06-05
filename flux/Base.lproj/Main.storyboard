@@ -163,6 +163,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="arrowImage" destination="sdv-Sn-pOA" id="Ceg-ut-IhD"/>
                         <outlet property="busyStatusImage" destination="tfq-QK-Ucw" id="AUX-oF-4Y6"/>
                         <outlet property="currentEntriesLabel" destination="ukG-bk-HbP" id="U0n-rz-mfx"/>
                         <outlet property="currentStatusImage" destination="tfq-QK-Ucw" id="jH1-6h-NZN"/>

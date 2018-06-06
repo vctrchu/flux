@@ -13,7 +13,6 @@ import FirebaseDatabase
 class HomeVC: UIViewController, ChartViewDelegate {
 
     @IBOutlet weak var lineChartView: LineChartView!
-    @IBOutlet weak var currentStatusImage: UIImageView!
     
     @IBOutlet weak var arrowImage: UIImageView!
     @IBOutlet weak var busyStatusImage: UIImageView!
@@ -41,13 +40,13 @@ class HomeVC: UIViewController, ChartViewDelegate {
         super.viewDidLoad()
         timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector:#selector(self.tick) , userInfo: nil, repeats: true)
         addNavigationBarTitleImage()
-        retrieveDataForDay(Day: determineDay())
-        
+        getValueToAdd(Day: determineDayForValueToAdd())
+
     }
     @IBAction func reloadButtonTapped(_ sender: Any) {
         numberOfEntriesArray.removeAll()
         hourOfDay.removeAll()
-        retrieveDataForDay(Day: determineDay())
+        getValueToAdd(Day: determineDayForValueToAdd())
      }
     
     func lineChartProperties() {
@@ -82,30 +81,6 @@ class HomeVC: UIViewController, ChartViewDelegate {
         dateLabel.text = value
         
     }
-    
-    func addToDictionary(Day: String, Key: String, Value: Double) {
-        
-        switch Day {
-        case "monday":
-            mondayDictionary[Key] = Value
-        case "tuesday":
-            tuesdayDictionary[Key] = Value
-        case "wednesday":
-            wednesdayDictionary[Key] = Value
-        case "thursday":
-            thursdayDictionary[Key] = Value
-        case "friday":
-            fridayDictionary[Key] = Value
-        case "saturday":
-            saturdayDictionary[Key] = Value
-        case "sunday":
-            sundayDictionary[Key] = Value
-            
-        default: ()
-        }
-    }
-    
-    
     
     func retrieveDataForDay(Day: String) {
         
@@ -145,6 +120,53 @@ class HomeVC: UIViewController, ChartViewDelegate {
         })
 
         
+    }
+    
+    
+    
+    func getValueToAdd(Day: String) {
+        // Set the firebase reference
+        ref = Database.database().reference().child("charts").child("valueToAdd").child(Day)
+        
+        ref?.observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            let groupKeys = snapshot.children.compactMap { $0 as? DataSnapshot }.map { $0.key }
+            
+            // This group will keep track of the number of blocks still pending
+            let group = DispatchGroup()
+            var valueToAdd = 0
+            
+            for child in snapshot.children {
+                let snap = child as! DataSnapshot
+                let value = snap.value as! Int
+                
+                valueToAdd = value
+            }
+            
+            for groupKey in groupKeys {
+                group.enter()
+                self.ref?.child("groups").child(groupKey).child("name").observeSingleEvent(of: .value, with: { snapshot in
+                    group.leave()
+                })
+            }
+            
+            // We ask to be notified when every block left the group
+            group.notify(queue: .main) {
+                print("All callbacks are completed")
+                
+                let date = Date()
+                let calendar = Calendar.current
+                let hour = Int(calendar.component(.hour, from: date))
+                
+                
+                if hour > Int(self.hourOfDay.count + valueToAdd) {
+                    self.retrieveDataForDay(Day: self.determineDay())
+                }
+                
+
+            }
+        })
+
     }
     
     func retrieveHoursOfDay(Day: String) {
@@ -187,6 +209,28 @@ class HomeVC: UIViewController, ChartViewDelegate {
                 self.lineChartView.setBarChartData(xValues: self.hourOfDay, yValues: self.numberOfEntriesArray, label: "Number of Entries")
             }
         })
+    }
+    
+    func addToDictionary(Day: String, Key: String, Value: Double) {
+        
+        switch Day {
+        case "monday":
+            mondayDictionary[Key] = Value
+        case "tuesday":
+            tuesdayDictionary[Key] = Value
+        case "wednesday":
+            wednesdayDictionary[Key] = Value
+        case "thursday":
+            thursdayDictionary[Key] = Value
+        case "friday":
+            fridayDictionary[Key] = Value
+        case "saturday":
+            saturdayDictionary[Key] = Value
+        case "sunday":
+            sundayDictionary[Key] = Value
+            
+        default: ()
+        }
     }
     
     func getEntriesOfCurrentHour(Day: String) -> Int {
@@ -247,6 +291,24 @@ class HomeVC: UIViewController, ChartViewDelegate {
         return value
     }
     
+    func compareCurrentHourToNext() {
+        
+        let date = Date()
+        let calendar = Calendar.current
+        let hour = String(calendar.component(.hour, from: date))
+        let currentHour = getEntriesOfCurrentHour(Day: determineDay())
+        let nextHour = getEntriesOfNextHour(Day: determineDay())
+        
+        if currentHour > nextHour {
+            arrowImage.image = #imageLiteral(resourceName: "downRedArrow")
+        }
+            
+        else {
+            arrowImage.image = #imageLiteral(resourceName: "upGreenArrow")
+        }
+        
+    }
+    
     func determineBusyLevel(Entries: Int) {
         
         if Entries > 150 {
@@ -262,25 +324,6 @@ class HomeVC: UIViewController, ChartViewDelegate {
         }
         
     }
-    
-    func compareCurrentHourToNext() {
-        
-        let date = Date()
-        let calendar = Calendar.current
-        let hour = String(calendar.component(.hour, from: date))
-        let currentHour = getEntriesOfCurrentHour(Day: determineDay())
-        let nextHour = getEntriesOfNextHour(Day: determineDay())
-        
-        if currentHour > nextHour {
-            arrowImage.image = #imageLiteral(resourceName: "downRedArrow")
-        }
-        
-        else {
-            arrowImage.image = #imageLiteral(resourceName: "upGreenArrow")
-        }
-        
-    }
-    
     
     func entriesOfCurrentHour(Day: String) {
         
@@ -398,6 +441,23 @@ class HomeVC: UIViewController, ChartViewDelegate {
         return value
     }
     
+    func determineDayForValueToAdd() -> String {
+        let date = Date()
+        let calendar = Calendar.current
+        let day = calendar.component(.weekday, from: date)
+        var value = ""
+        
+        if day == 2 || day == 3 || day == 4 || day == 5 || day == 6{
+            value = "M-F"
+        }
+            
+        else {
+            value = "SS"
+        }
+        
+        return value
+    }
+    
     
     func addNavigationBarTitleImage() {
         let titleImageView = UIImageView(image: #imageLiteral(resourceName: "currentStatusLabel"))
@@ -406,8 +466,6 @@ class HomeVC: UIViewController, ChartViewDelegate {
         
         navigationItem.titleView = titleImageView
     }
-
-    
 }
 
 extension LineChartView {

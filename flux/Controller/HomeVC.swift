@@ -9,6 +9,7 @@
 import UIKit
 import Charts
 import FirebaseDatabase
+import SimpleAnimation
 
 class HomeVC: UIViewController, ChartViewDelegate {
 
@@ -201,9 +202,9 @@ class HomeVC: UIViewController, ChartViewDelegate {
             group.notify(queue: .main) {
                 print("All callbacks are completed")
                 
+                self.compareCurrentHourToNext()
                 self.entriesOfCurrentHour(Day: self.determineDay())
                 self.entriesOfNextHour(Day: self.determineDay())
-                self.compareCurrentHourToNext()
                 self.determineBusyLevel(Entries: self.getEntriesOfCurrentHour(Day: self.determineDay()))
                 self.lineChartProperties()
                 self.lineChartView.setBarChartData(xValues: self.hourOfDay, yValues: self.numberOfEntriesArray, label: "Number of Entries")
@@ -301,10 +302,12 @@ class HomeVC: UIViewController, ChartViewDelegate {
         
         if currentHour > nextHour {
             arrowImage.image = #imageLiteral(resourceName: "downRedArrow")
+            arrowImage.shake(toward: .top, amount: 0.3, duration: 1, delay: 2, completion: nil)
         }
             
         else {
             arrowImage.image = #imageLiteral(resourceName: "upGreenArrow")
+            arrowImage.shake(toward: .top, amount: 0.3, duration: 1, delay: 2, completion: nil)
         }
         
     }
@@ -312,15 +315,28 @@ class HomeVC: UIViewController, ChartViewDelegate {
     func determineBusyLevel(Entries: Int) {
         
         if Entries > 150 {
+            busyStatusImage.isHidden = false
             busyStatusImage.image = #imageLiteral(resourceName: "busyStatus")
+            busyStatusImage.shake()
         }
         
         else if Entries < 150 && Entries > 100{
+            busyStatusImage.isHidden = false
             busyStatusImage.image = #imageLiteral(resourceName: "moderatelyBusyStatus")
+            busyStatusImage.popIn(fromScale: 1, duration: 4, delay: 1, completion: nil)
+
+        }
+        
+        else if Entries < 0 && Entries < 100 {
+            busyStatusImage.isHidden = false
+            busyStatusImage.image = #imageLiteral(resourceName: "notBusyStatus")
+            busyStatusImage.bounceIn()
+
         }
         
         else {
-            busyStatusImage.image = #imageLiteral(resourceName: "notBusyStatus")
+            busyStatusImage.isHidden = false
+            busyStatusImage.image = #imageLiteral(resourceName: "closedStatus")
         }
         
     }

@@ -16,6 +16,7 @@ class HomeVC: UIViewController, ChartViewDelegate {
 
     @IBOutlet weak var lineChartView: LineChartView!
     
+    @IBOutlet weak var reloadButton: UIButton!
     @IBOutlet weak var arrowImage: UIImageView!
     @IBOutlet weak var busyStatusImage: UIImageView!
     @IBOutlet weak var nextHourEntriesLabel: UILabel!
@@ -85,6 +86,13 @@ class HomeVC: UIViewController, ChartViewDelegate {
     //MARK: - Navigation Buttons (Info and Reload)
     
     @IBAction func reloadButtonTapped(_ sender: Any) {
+        
+        reloadButton.isEnabled = false
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+            self.reloadButton.isEnabled = true
+        }
+        
         numberOfEntriesArray.removeAll()
         hourOfDay.removeAll()
         retrieveDataForDay(Day: determineDay())
@@ -155,8 +163,6 @@ class HomeVC: UIViewController, ChartViewDelegate {
                 self.retrieveHoursOfDay(Day: self.determineDayForHours())
             }
         })
-
-        
     }
     
     func retrieveHoursOfDay(Day: String) {
@@ -197,8 +203,6 @@ class HomeVC: UIViewController, ChartViewDelegate {
         })
     }
     
-    
-    
     func retrieveValueToAdd(Day: String) {
         // Set the firebase reference
         ref = Database.database().reference().child("charts").child("valueToAdd").child(Day)
@@ -236,8 +240,6 @@ class HomeVC: UIViewController, ChartViewDelegate {
 
     }
     
-
-    
     //MARK: - Entry Getter Functions
     
     func getCurrentHour() -> Int {
@@ -246,7 +248,6 @@ class HomeVC: UIViewController, ChartViewDelegate {
         let hour = Int(calendar.component(.hour, from: date))
         
         return hour
-        
     }
     
     func getEntriesOfCurrentHour(Day: String, Value: Int) -> Int {
@@ -287,7 +288,7 @@ class HomeVC: UIViewController, ChartViewDelegate {
         default:()
         }
         
-          return returnValue
+        return returnValue
     }
     
     //MARK: - Busy Status and Arrow Image Functions
@@ -360,6 +361,7 @@ class HomeVC: UIViewController, ChartViewDelegate {
         default:
             currentEntriesLabel.text = "N/A"
         }
+        
     }
 
     func entriesOfNextHour(Day: String, Value: Int) {
@@ -381,6 +383,7 @@ class HomeVC: UIViewController, ChartViewDelegate {
         default:
             nextHourEntriesLabel.text = "N/A"
         }
+        
     }
     
     //MARK: - Determine Functions
@@ -500,6 +503,7 @@ extension LineChartView {
         chartDataSet.drawCirclesEnabled = false
         chartDataSet.setColor(#colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1))
         chartDataSet.mode = .cubicBezier
+        chartDataSet.setDrawHighlightIndicators(false)
 
         
         self.data = chartData

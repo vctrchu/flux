@@ -179,6 +179,7 @@
                         <outlet property="dateLabel" destination="Dhg-6x-Nde" id="PAr-kE-Nft"/>
                         <outlet property="lineChartView" destination="lYq-bJ-rDx" id="dtX-pR-bdn"/>
                         <outlet property="nextHourEntriesLabel" destination="Aua-12-E9P" id="jQJ-Iy-0GZ"/>
+                        <outlet property="reloadButton" destination="ai6-QS-hs8" id="hl6-vg-aMc"/>
                         <outlet property="timeLabel" destination="sMY-3w-tG2" id="YLD-R0-Xg9"/>
                     </connections>
                 </viewController>

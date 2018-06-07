@@ -63,9 +63,6 @@
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" notEnabled="YES"/>
                                 </accessibility>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="263" id="IHj-Ao-OGO"/>
-                                </constraints>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="csw-aT-yyx">
                                 <rect key="frame" x="60" y="303" width="255.5" height="81"/>
@@ -148,6 +145,7 @@
                             <constraint firstItem="lYq-bJ-rDx" firstAttribute="top" secondItem="csw-aT-yyx" secondAttribute="bottom" constant="20" id="XSG-dC-Cxg"/>
                             <constraint firstItem="lYq-bJ-rDx" firstAttribute="trailing" secondItem="DHU-Qb-FKD" secondAttribute="trailing" constant="-5" id="aht-Or-PFh"/>
                             <constraint firstItem="lYq-bJ-rDx" firstAttribute="bottom" secondItem="DHU-Qb-FKD" secondAttribute="bottom" id="ezE-lb-UMB"/>
+                            <constraint firstItem="csw-aT-yyx" firstAttribute="top" secondItem="tfq-QK-Ucw" secondAttribute="bottom" constant="54" id="fIX-xX-KWz"/>
                             <constraint firstItem="tfq-QK-Ucw" firstAttribute="top" secondItem="Dhg-6x-Nde" secondAttribute="bottom" constant="65" id="toN-Gl-MZR"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="DHU-Qb-FKD"/>

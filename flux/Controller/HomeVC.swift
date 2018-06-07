@@ -226,6 +226,7 @@ class HomeVC: UIViewController, ChartViewDelegate {
                 self.lineChartView.setBarChartData(xValues: self.hourOfDay, yValues: self.numberOfEntriesArray, label: "Number of Entries")
                 self.entriesOfCurrentHour(Day: self.determineDayForValueToAdd(), Value: valueToAdd)
                 self.entriesOfNextHour(Day: self.determineDayForValueToAdd(), Value: valueToAdd)
+                self.compareCurrentHourToNext(currentHour: self.getEntriesOfCurrentHour(Day: self.determineDayForValueToAdd(), Value: valueToAdd), nextHour: self.getEntriesOfNextHour(Day: self.determineDayForValueToAdd(), Value: valueToAdd))
                 
                 //self.compareCurrentHourToNext()
                 //self.determineBusyLevel(Entries: self.getEntriesOfCurrentHour(Day: self.determineDay()))
@@ -248,16 +249,46 @@ class HomeVC: UIViewController, ChartViewDelegate {
         
     }
     
+    func getEntriesOfCurrentHour(Day: String, Value: Int) -> Int {
+        
+        var returnValue = 0
+        
+        switch Day {
+        case "M-F":
+            if getCurrentHour() < hourOfDay.count + Value && getCurrentHour() >= Value {
+                returnValue = Int(dayDictionary[String(getCurrentHour())]!)
+                
+            }
+        case "SS":
+            if getCurrentHour() < hourOfDay.count + Value && getCurrentHour() >= Value {
+                returnValue = Int(dayDictionary[String(getCurrentHour())]!)
+            }
+            
+        default:()
+        }
+        return returnValue
+    }
     
-//    func getEntriesOfNextHour(Day: String) -> Int {
-//
-//        switch Day {
-//
-//        default:()
-//        }
-//
-//        return value
-//    }
+    func getEntriesOfNextHour(Day: String, Value: Int) -> Int {
+        
+        var returnValue = 0
+        
+        switch Day {
+        case "M-F":
+            if getCurrentHour() + 1 < hourOfDay.count + Value && getCurrentHour() >= Value {
+                returnValue = Int(dayDictionary[String(getCurrentHour() + 1)]!)
+                
+            }
+        case "SS":
+            if getCurrentHour() + 1 < hourOfDay.count + Value && getCurrentHour() >= Value {
+                returnValue = Int(dayDictionary[String(getCurrentHour() + 1)]!)
+            }
+            
+        default:()
+        }
+        
+          return returnValue
+    }
     
     //MARK: - Busy Status and Arrow Image Functions
     
@@ -290,22 +321,23 @@ class HomeVC: UIViewController, ChartViewDelegate {
         
     }
     
-//    func compareCurrentHourToNext() {
-//
-//        let currentHour = getEntriesOfCurrentHour(Day: determineDay())
-//        let nextHour = getEntriesOfNextHour(Day: determineDay())
-//
-//        if currentHour > nextHour {
-//            arrowImage.image = #imageLiteral(resourceName: "downRedArrow")
-//            arrowImage.shake(toward: .top, amount: 0.3, duration: 1, delay: 2, completion: nil)
-//        }
-//
-//        else {
-//            arrowImage.image = #imageLiteral(resourceName: "upGreenArrow")
-//            arrowImage.shake(toward: .top, amount: 0.3, duration: 1, delay: 2, completion: nil)
-//        }
-//
-//    }
+    func compareCurrentHourToNext(currentHour: Int, nextHour: Int) {
+
+        if currentHour > nextHour {
+            arrowImage.image = #imageLiteral(resourceName: "downRedArrow")
+            arrowImage.shake(toward: .top, amount: 0.3, duration: 1, delay: 2, completion: nil)
+        }
+            
+        else if currentHour < nextHour {
+            arrowImage.image = #imageLiteral(resourceName: "upGreenArrow")
+            arrowImage.shake(toward: .top, amount: 0.3, duration: 1, delay: 2, completion: nil)
+        }
+
+        else {
+            arrowImage.isHidden = true
+        }
+
+    }
     
     //MARK: - Current and Next Hour Label Functions
     

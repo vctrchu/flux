@@ -226,10 +226,10 @@ class HomeVC: UIViewController, ChartViewDelegate {
                 self.lineChartView.setBarChartData(xValues: self.hourOfDay, yValues: self.numberOfEntriesArray, label: "Number of Entries")
                 self.entriesOfCurrentHour(Day: self.determineDayForValueToAdd(), Value: valueToAdd)
                 self.entriesOfNextHour(Day: self.determineDayForValueToAdd(), Value: valueToAdd)
+                
                 self.compareCurrentHourToNext(currentHour: self.getEntriesOfCurrentHour(Day: self.determineDayForValueToAdd(), Value: valueToAdd), nextHour: self.getEntriesOfNextHour(Day: self.determineDayForValueToAdd(), Value: valueToAdd))
                 
-                //self.compareCurrentHourToNext()
-                //self.determineBusyLevel(Entries: self.getEntriesOfCurrentHour(Day: self.determineDay()))
+                self.determineBusyLevel(Entries: self.getEntriesOfCurrentHour(Day: self.determineDayForValueToAdd(), Value: valueToAdd))
 
             }
         })

@@ -162,6 +162,7 @@ class HomeVC: UIViewController, ChartViewDelegate {
                 print("All callbacks are completed")
                 
                 self.retrieveHoursOfDay(Day: self.determineDayForHours())
+
             }
         })
     }

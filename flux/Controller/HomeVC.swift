@@ -29,20 +29,13 @@ class HomeVC: UIViewController, ChartViewDelegate {
     var hourOfDay = [String]()
     var numberOfEntriesArray = [Double]()
     
-    var mondayDictionary = [String: Double]()
-    var tuesdayDictionary = [String: Double]()
-    var wednesdayDictionary = [String: Double]()
-    var thursdayDictionary = [String: Double]()
-    var fridayDictionary = [String: Double]()
-    var saturdayDictionary = [String: Double]()
-    var sundayDictionary = [String: Double]()
-    
+    var dayDictionary = [String: Double]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector:#selector(self.tick) , userInfo: nil, repeats: true)
         addNavigationBarTitleImage()
-        getValueToAdd(Day: determineDayForValueToAdd())
+        retrieveDataForDay(Day: determineDay())
 
     }
     
@@ -94,7 +87,7 @@ class HomeVC: UIViewController, ChartViewDelegate {
     @IBAction func reloadButtonTapped(_ sender: Any) {
         numberOfEntriesArray.removeAll()
         hourOfDay.removeAll()
-        getValueToAdd(Day: determineDayForValueToAdd())
+        retrieveDataForDay(Day: determineDay())
      }
     
     @IBAction func infoButtonTapped(_ sender: Any) {
@@ -144,7 +137,7 @@ class HomeVC: UIViewController, ChartViewDelegate {
                 let value = snap.value as! Double
                     
                 self.numberOfEntriesArray.append(value)
-                self.addToDictionary(Day: Day, Key: key, Value: value)
+                self.dayDictionary[key] = value
                     
             }
             
@@ -164,53 +157,6 @@ class HomeVC: UIViewController, ChartViewDelegate {
         })
 
         
-    }
-    
-    
-    
-    func getValueToAdd(Day: String) {
-        // Set the firebase reference
-        ref = Database.database().reference().child("charts").child("valueToAdd").child(Day)
-        
-        ref?.observeSingleEvent(of: .value, with: { (snapshot) in
-            
-            let groupKeys = snapshot.children.compactMap { $0 as? DataSnapshot }.map { $0.key }
-            
-            // This group will keep track of the number of blocks still pending
-            let group = DispatchGroup()
-            var valueToAdd = 0
-            
-            for child in snapshot.children {
-                let snap = child as! DataSnapshot
-                let value = snap.value as! Int
-                
-                valueToAdd = value
-            }
-            
-            for groupKey in groupKeys {
-                group.enter()
-                self.ref?.child("groups").child(groupKey).child("name").observeSingleEvent(of: .value, with: { snapshot in
-                    group.leave()
-                })
-            }
-            
-            // We ask to be notified when every block left the group
-            group.notify(queue: .main) {
-                print("All callbacks are completed")
-                
-                let date = Date()
-                let calendar = Calendar.current
-                let hour = Int(calendar.component(.hour, from: date))
-                
-                
-                if hour > Int(self.hourOfDay.count + valueToAdd) {
-                    self.retrieveDataForDay(Day: self.determineDay())
-                }
-                
-
-            }
-        })
-
     }
     
     func retrieveHoursOfDay(Day: String) {
@@ -245,101 +191,73 @@ class HomeVC: UIViewController, ChartViewDelegate {
             group.notify(queue: .main) {
                 print("All callbacks are completed")
                 
-
-                self.lineChartProperties()
-                self.lineChartView.setBarChartData(xValues: self.hourOfDay, yValues: self.numberOfEntriesArray, label: "Number of Entries")
-                self.entriesOfCurrentHour(Day: self.determineDay())
-                self.entriesOfNextHour(Day: self.determineDay())
-                self.compareCurrentHourToNext()
-                self.determineBusyLevel(Entries: self.getEntriesOfCurrentHour(Day: self.determineDay()))
-
+                self.retrieveValueToAdd(Day: self.determineDayForValueToAdd())
+                
             }
         })
     }
     
-    //MARK: - Array/Dictionary Appending Function
     
-    func addToDictionary(Day: String, Key: String, Value: Double) {
+    
+    func retrieveValueToAdd(Day: String) {
+        // Set the firebase reference
+        ref = Database.database().reference().child("charts").child("valueToAdd").child(Day)
         
-        switch Day {
-        case "monday":
-            mondayDictionary[Key] = Value
-        case "tuesday":
-            tuesdayDictionary[Key] = Value
-        case "wednesday":
-            wednesdayDictionary[Key] = Value
-        case "thursday":
-            thursdayDictionary[Key] = Value
-        case "friday":
-            fridayDictionary[Key] = Value
-        case "saturday":
-            saturdayDictionary[Key] = Value
-        case "sunday":
-            sundayDictionary[Key] = Value
+        ref?.observeSingleEvent(of: .value, with: { (snapshot) in
             
-        default: ()
-        }
+            let groupKeys = snapshot.children.compactMap { $0 as? DataSnapshot }.map { $0.key }
+            
+            // This group will keep track of the number of blocks still pending
+            let group = DispatchGroup()
+            
+            let valueToAdd = snapshot.value as! Int
+            
+            for groupKey in groupKeys {
+                group.enter()
+                self.ref?.child("groups").child(groupKey).child("name").observeSingleEvent(of: .value, with: { snapshot in
+                    group.leave()
+                })
+            }
+            
+            // We ask to be notified when every block left the group
+            group.notify(queue: .main) {
+                print("Works")
+                self.lineChartProperties()
+                self.lineChartView.setBarChartData(xValues: self.hourOfDay, yValues: self.numberOfEntriesArray, label: "Number of Entries")
+                self.entriesOfCurrentHour(Day: self.determineDayForValueToAdd(), Value: valueToAdd)
+                self.entriesOfNextHour(Day: self.determineDayForValueToAdd(), Value: valueToAdd)
+                
+                //self.compareCurrentHourToNext()
+                //self.determineBusyLevel(Entries: self.getEntriesOfCurrentHour(Day: self.determineDay()))
+
+            }
+        })
+
     }
+    
+
     
     //MARK: - Entry Getter Functions
     
-    func getEntriesOfCurrentHour(Day: String) -> Int {
-        
+    func getCurrentHour() -> Int {
         let date = Date()
         let calendar = Calendar.current
-        let hour = String(calendar.component(.hour, from: date))
-        var value = 0
+        let hour = Int(calendar.component(.hour, from: date))
         
-        switch Day {
-        case "monday":
-            value = Int(mondayDictionary[hour]!)
-        case "tuesday":
-            value = Int(tuesdayDictionary[hour]!)
-        case "wednesday":
-            value = Int(wednesdayDictionary[hour]!)
-        case "thursday":
-            value = Int(thursdayDictionary[hour]!)
-        case "friday":
-            value = Int(fridayDictionary[hour]!)
-        case "saturday":
-            value = Int(saturdayDictionary[hour]!)
-        case "sunday":
-            value = Int(sundayDictionary[hour]!)
-            
-        default:()
-        }
+        return hour
         
-        return value
     }
     
-    func getEntriesOfNextHour(Day: String) -> Int {
-        
-        let date = Date()
-        let calendar = Calendar.current
-        let hour = String(calendar.component(.hour, from: date) + 1)
-        var value = 0
-        
-        switch Day {
-        case "monday":
-            value = Int(mondayDictionary[hour]!)
-        case "tuesday":
-            value = Int(tuesdayDictionary[hour]!)
-        case "wednesday":
-            value = Int(wednesdayDictionary[hour]!)
-        case "thursday":
-            value = Int(thursdayDictionary[hour]!)
-        case "friday":
-            value = Int(fridayDictionary[hour]!)
-        case "saturday":
-            value = Int(saturdayDictionary[hour]!)
-        case "sunday":
-            value = Int(sundayDictionary[hour]!)
-            
-        default:()
-        }
-        
-        return value
-    }
+    
+//    func getEntriesOfNextHour(Day: String) -> Int {
+//
+//        switch Day {
+//
+//        default:()
+//        }
+//
+//        return value
+//    }
     
     //MARK: - Busy Status and Arrow Image Functions
     
@@ -372,91 +290,65 @@ class HomeVC: UIViewController, ChartViewDelegate {
         
     }
     
-    func compareCurrentHourToNext() {
-        
-        let currentHour = getEntriesOfCurrentHour(Day: determineDay())
-        let nextHour = getEntriesOfNextHour(Day: determineDay())
-        
-        if currentHour > nextHour {
-            arrowImage.image = #imageLiteral(resourceName: "downRedArrow")
-            arrowImage.shake(toward: .top, amount: 0.3, duration: 1, delay: 2, completion: nil)
-        }
-            
-        else {
-            arrowImage.image = #imageLiteral(resourceName: "upGreenArrow")
-            arrowImage.shake(toward: .top, amount: 0.3, duration: 1, delay: 2, completion: nil)
-        }
-        
-    }
+//    func compareCurrentHourToNext() {
+//
+//        let currentHour = getEntriesOfCurrentHour(Day: determineDay())
+//        let nextHour = getEntriesOfNextHour(Day: determineDay())
+//
+//        if currentHour > nextHour {
+//            arrowImage.image = #imageLiteral(resourceName: "downRedArrow")
+//            arrowImage.shake(toward: .top, amount: 0.3, duration: 1, delay: 2, completion: nil)
+//        }
+//
+//        else {
+//            arrowImage.image = #imageLiteral(resourceName: "upGreenArrow")
+//            arrowImage.shake(toward: .top, amount: 0.3, duration: 1, delay: 2, completion: nil)
+//        }
+//
+//    }
     
     //MARK: - Current and Next Hour Label Functions
     
-    func entriesOfCurrentHour(Day: String) {
-        
-        let date = Date()
-        let calendar = Calendar.current
-        let hour = String(calendar.component(.hour, from: date))
+    func entriesOfCurrentHour(Day: String, Value: Int) {
         
         switch Day {
-        case "monday":
-            let value = String(format: "%.0f", mondayDictionary[hour]!)
-            currentEntriesLabel.text = value
-        case "tuesday":
-            let value = String(format: "%.0f", tuesdayDictionary[hour]!)
-            currentEntriesLabel.text = value
-        case "wednesday":
-            let value = String(format: "%.0f", wednesdayDictionary[hour]!)
-            currentEntriesLabel.text = value
-        case "thursday":
-            let value = String(format: "%.0f", thursdayDictionary[hour]!)
-            currentEntriesLabel.text = value
-        case "friday":
-            let value = String(format: "%.0f", fridayDictionary[hour]!)
-            currentEntriesLabel.text = value
-        case "saturday":
-            let value = String(format: "%.0f", saturdayDictionary[hour]!)
-            currentEntriesLabel.text = value
-        case "sunday":
-            let value = String(format: "%.0f", sundayDictionary[hour]!)
-            currentEntriesLabel.text = value
-            
-        default:()
-        }
+        case "M-F":
+            if getCurrentHour() < hourOfDay.count + Value && getCurrentHour() >= Value {
+                currentEntriesLabel.text = String(Int(dayDictionary[String(getCurrentHour())]!))
+            } else {
+                currentEntriesLabel.text = "N/A"
+            }
+        case "SS":
+            if getCurrentHour() < hourOfDay.count + Value && getCurrentHour() >= Value {
+                currentEntriesLabel.text = String(Int(dayDictionary[String(getCurrentHour())]!))
+            } else {
+                currentEntriesLabel.text = "N/A"
+            }
         
+        default:
+            currentEntriesLabel.text = "N/A"
+        }
     }
-    
-    func entriesOfNextHour(Day: String) {
-        
-        let date = Date()
-        let calendar = Calendar.current
-        let hour = String(calendar.component(.hour, from: date) + 1)
+
+    func entriesOfNextHour(Day: String, Value: Int) {
         
         switch Day {
-        case "monday":
-            let value = String(format: "%.0f", mondayDictionary[hour]!)
-            nextHourEntriesLabel.text = value
-        case "tuesday":
-            let value = String(format: "%.0f", tuesdayDictionary[hour]!)
-            nextHourEntriesLabel.text = value
-        case "wednesday":
-            let value = String(format: "%.0f", wednesdayDictionary[hour]!)
-            nextHourEntriesLabel.text = value
-        case "thursday":
-            let value = String(format: "%.0f", thursdayDictionary[hour]!)
-            nextHourEntriesLabel.text = value
-        case "friday":
-            let value = String(format: "%.0f", fridayDictionary[hour]!)
-            nextHourEntriesLabel.text = value
-        case "saturday":
-            let value = String(format: "%.0f", saturdayDictionary[hour]!)
-            nextHourEntriesLabel.text = value
-        case "sunday":
-            let value = String(format: "%.0f", sundayDictionary[hour]!)
-            nextHourEntriesLabel.text = value
-
-        default:()
+        case "M-F":
+            if getCurrentHour() + 1 < hourOfDay.count + Value && getCurrentHour() >= Value {
+                nextHourEntriesLabel.text = String(Int(dayDictionary[String(getCurrentHour() + 1)]!))
+            } else {
+                nextHourEntriesLabel.text = "N/A"
+            }
+        case "SS":
+            if getCurrentHour() + 1 < hourOfDay.count + Value && getCurrentHour() >= Value {
+                nextHourEntriesLabel.text = String(Int(dayDictionary[String(getCurrentHour() + 1)]!))
+            } else {
+                nextHourEntriesLabel.text = "N/A"
+            }
+            
+        default:
+            nextHourEntriesLabel.text = "N/A"
         }
-        
     }
     
     //MARK: - Determine Functions

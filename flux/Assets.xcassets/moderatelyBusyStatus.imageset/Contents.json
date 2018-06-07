@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "notBusyLabel.png",
+      "filename" : "moderatelyBusyStatus.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "notBusyLabel@2x.png",
+      "filename" : "moderatelyBusyStatus@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "notBusyLabel@3x.png",
+      "filename" : "moderatelyBusyStatus@3x.png",
       "scale" : "3x"
     }
   ],

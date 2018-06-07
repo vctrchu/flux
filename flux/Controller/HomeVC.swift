@@ -312,15 +312,15 @@ class HomeVC: UIViewController, ChartViewDelegate {
     func determineBusyLevel(Entries: Int) {
         
         if Entries > 150 {
-            busyStatusImage.image = #imageLiteral(resourceName: "busyStatusLabel")
+            busyStatusImage.image = #imageLiteral(resourceName: "busyStatus")
         }
         
         else if Entries < 150 && Entries > 100{
-            busyStatusImage.image = #imageLiteral(resourceName: "moderateBusyStatusLabel")
+            busyStatusImage.image = #imageLiteral(resourceName: "moderatelyBusyStatus")
         }
         
         else {
-            busyStatusImage.image = #imageLiteral(resourceName: "notBusyLabel")
+            busyStatusImage.image = #imageLiteral(resourceName: "notBusyStatus")
         }
         
     }
@@ -511,8 +511,10 @@ extension LineChartView {
         chartDataSet.fill = Fill.fillWithLinearGradient(gradient!, angle: 90.0) // Set the Gradient
         chartDataSet.drawFilledEnabled = true // Draw the Gradient
         
+        
         chartData.setDrawValues(false)
         chartDataSet.drawCirclesEnabled = false
+        chartDataSet.setColor(#colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1))
         chartDataSet.mode = .cubicBezier
 
         

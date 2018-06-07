@@ -6,6 +6,7 @@ target 'flux' do
   use_frameworks!
 
   # Pods for flux
+  pod 'PopupDialog'
   pod 'Motion'
   pod 'SimpleAnimation'
   pod 'Charts'

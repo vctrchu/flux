@@ -10,6 +10,7 @@ import UIKit
 import Charts
 import FirebaseDatabase
 import SimpleAnimation
+import PopupDialog
 
 class HomeVC: UIViewController, ChartViewDelegate {
 
@@ -49,6 +50,33 @@ class HomeVC: UIViewController, ChartViewDelegate {
         hourOfDay.removeAll()
         getValueToAdd(Day: determineDayForValueToAdd())
      }
+    
+    @IBAction func infoButtonTapped(_ sender: Any) {
+        
+        // Prepare the popup assets
+        let title = "Flux Version 1.0"
+        let message = "This app currently calculates how busy the gym is based off gate statistics of Fall/Winter semesters 2017 - 2018. We are currently in the works of implementing live data. This app is not affiliated with the University of Calgary."
+        
+        // Create the dialog
+        let popup = PopupDialog(title: title, message: message)
+        
+        // Create buttons
+        let buttonOne = CancelButton(title: "EXIT") {
+        }
+        
+        // This button will not the dismiss the dialog
+        let buttonTwo = DefaultButton(title: "RATE THIS APP", dismissOnTap: false) {
+            print("What a beauty!")
+        }
+        
+        // Add buttons to dialog
+        // Alternatively, you can use popup.addButton(buttonOne)
+        // to add a single button
+        popup.addButtons([buttonOne, buttonTwo])
+        
+        // Present dialog
+        self.present(popup, animated: true, completion: nil)
+    }
     
     func lineChartProperties() {
         lineChartView.chartDescription?.text = ""

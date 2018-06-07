@@ -2,6 +2,7 @@ PODS:
   - Charts (3.0.5):
     - Charts/Core (= 3.0.5)
   - Charts/Core (3.0.5)
+  - DynamicBlurView (2.0.2)
   - Firebase/Core (4.9.0):
     - FirebaseAnalytics (= 4.0.9)
     - FirebaseCore (= 4.0.15)
@@ -33,6 +34,8 @@ PODS:
     - nanopb/encode (= 0.3.8)
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
+  - PopupDialog (0.7.0):
+    - DynamicBlurView (~> 2.0)
   - SimpleAnimation (0.4.0)
 
 DEPENDENCIES:
@@ -40,10 +43,12 @@ DEPENDENCIES:
   - Firebase/Core
   - Firebase/Database
   - Motion
+  - PopupDialog
   - SimpleAnimation
 
 SPEC CHECKSUMS:
   Charts: 45cdc985b764c838b35ee47eb1365d15735f6d1a
+  DynamicBlurView: aa6db4defc6e537eb86fc5e58dd3991666178399
   Firebase: 632216af3ed7f31e3be34776947fdc7546cfb572
   FirebaseAnalytics: 388b630c15713f5dbf364071f5f3d6077fb52f4e
   FirebaseCore: 3bd047463058fa6b5d312c97502c52e45401cdfb
@@ -53,8 +58,9 @@ SPEC CHECKSUMS:
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   Motion: 9f74d115d7f72bb5380a8e3cde2f8a1fc898ac36
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
+  PopupDialog: 4abc6db5b22b7c8029e2162bde8891ee6aa4b6c8
   SimpleAnimation: a3473da5421c65100d68f98a44fc853b81091249
 
-PODFILE CHECKSUM: e43f377e21eea4cd1a3ebf21364051118831ef35
+PODFILE CHECKSUM: ecec2353ec97dec7b3576a43adb3c975143b67e9
 
 COCOAPODS: 1.3.1

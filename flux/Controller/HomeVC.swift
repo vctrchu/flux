@@ -202,12 +202,14 @@ class HomeVC: UIViewController, ChartViewDelegate {
             group.notify(queue: .main) {
                 print("All callbacks are completed")
                 
-                self.compareCurrentHourToNext()
-                self.entriesOfCurrentHour(Day: self.determineDay())
-                self.entriesOfNextHour(Day: self.determineDay())
-                self.determineBusyLevel(Entries: self.getEntriesOfCurrentHour(Day: self.determineDay()))
+
                 self.lineChartProperties()
                 self.lineChartView.setBarChartData(xValues: self.hourOfDay, yValues: self.numberOfEntriesArray, label: "Number of Entries")
+                self.entriesOfCurrentHour(Day: self.determineDay())
+                self.entriesOfNextHour(Day: self.determineDay())
+                self.compareCurrentHourToNext()
+                self.determineBusyLevel(Entries: self.getEntriesOfCurrentHour(Day: self.determineDay()))
+
             }
         })
     }
@@ -294,9 +296,6 @@ class HomeVC: UIViewController, ChartViewDelegate {
     
     func compareCurrentHourToNext() {
         
-        let date = Date()
-        let calendar = Calendar.current
-        let hour = String(calendar.component(.hour, from: date))
         let currentHour = getEntriesOfCurrentHour(Day: determineDay())
         let nextHour = getEntriesOfNextHour(Day: determineDay())
         
@@ -317,7 +316,7 @@ class HomeVC: UIViewController, ChartViewDelegate {
         if Entries > 150 {
             busyStatusImage.isHidden = false
             busyStatusImage.image = #imageLiteral(resourceName: "busyStatus")
-            busyStatusImage.shake()
+            busyStatusImage.popIn(fromScale: 1, duration: 4, delay: 1, completion: nil)
         }
         
         else if Entries < 150 && Entries > 100{
@@ -327,16 +326,16 @@ class HomeVC: UIViewController, ChartViewDelegate {
 
         }
         
-        else if Entries < 0 && Entries < 100 {
+        else if Entries > 0 && Entries < 100 {
             busyStatusImage.isHidden = false
             busyStatusImage.image = #imageLiteral(resourceName: "notBusyStatus")
-            busyStatusImage.bounceIn()
+            busyStatusImage.popIn(fromScale: 1, duration: 4, delay: 1, completion: nil)
 
         }
         
         else {
             busyStatusImage.isHidden = false
-            busyStatusImage.image = #imageLiteral(resourceName: "closedStatus")
+            busyStatusImage.popIn(fromScale: 1, duration: 4, delay: 1, completion: nil)
         }
         
     }

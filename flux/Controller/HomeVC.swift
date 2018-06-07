@@ -45,6 +45,52 @@ class HomeVC: UIViewController, ChartViewDelegate {
         getValueToAdd(Day: determineDayForValueToAdd())
 
     }
+    
+    //MARK: - Misc.
+    
+    func lineChartProperties() {
+        lineChartView.chartDescription?.text = ""
+        lineChartView.doubleTapToZoomEnabled = false
+        lineChartView.xAxis.drawAxisLineEnabled = false
+        lineChartView.leftAxis.drawGridLinesEnabled = false
+        lineChartView.leftAxis.drawLabelsEnabled = false
+        lineChartView.leftAxis.drawAxisLineEnabled = false
+        lineChartView.rightAxis.drawGridLinesEnabled = false
+        lineChartView.rightAxis.drawLabelsEnabled = false
+        lineChartView.rightAxis.drawAxisLineEnabled = false
+        lineChartView.legend.enabled = false
+        lineChartView.setScaleEnabled(false)
+        lineChartView.xAxis.labelTextColor = #colorLiteral(red: 0.8374180198, green: 0.8374378085, blue: 0.8374271393, alpha: 1)
+        lineChartView.animate(xAxisDuration: 2.0, yAxisDuration: 2.0)
+    }
+    
+    func addNavigationBarTitleImage() {
+        let titleImageView = UIImageView(image: #imageLiteral(resourceName: "currentStatusLabel"))
+        titleImageView.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
+        titleImageView.contentMode = .scaleAspectFit
+        
+        navigationItem.titleView = titleImageView
+    }
+    
+    
+    @objc func tick() {
+        
+        let date = Date()
+        let format = "MMM-dd"
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = format
+        
+        let value = dateFormatter.string(from: date)
+        
+        timeLabel.text = DateFormatter.localizedString(from: Date(),
+                                                       dateStyle: .none,
+                                                       timeStyle: .short)
+        dateLabel.text = value
+        
+    }
+    
+    //MARK: - Navigation Buttons (Info and Reload)
+    
     @IBAction func reloadButtonTapped(_ sender: Any) {
         numberOfEntriesArray.removeAll()
         hourOfDay.removeAll()
@@ -78,38 +124,7 @@ class HomeVC: UIViewController, ChartViewDelegate {
         self.present(popup, animated: true, completion: nil)
     }
     
-    func lineChartProperties() {
-        lineChartView.chartDescription?.text = ""
-        lineChartView.doubleTapToZoomEnabled = false
-        lineChartView.xAxis.drawAxisLineEnabled = false
-        lineChartView.leftAxis.drawGridLinesEnabled = false
-        lineChartView.leftAxis.drawLabelsEnabled = false
-        lineChartView.leftAxis.drawAxisLineEnabled = false
-        lineChartView.rightAxis.drawGridLinesEnabled = false
-        lineChartView.rightAxis.drawLabelsEnabled = false
-        lineChartView.rightAxis.drawAxisLineEnabled = false
-        lineChartView.legend.enabled = false
-        lineChartView.setScaleEnabled(false)
-        lineChartView.xAxis.labelTextColor = #colorLiteral(red: 0.8374180198, green: 0.8374378085, blue: 0.8374271393, alpha: 1)
-        lineChartView.animate(xAxisDuration: 2.0, yAxisDuration: 2.0)
-    }
-    
-    
-    @objc func tick() {
-        
-        let date = Date()
-        let format = "MMM-dd"
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = format
-        
-        let value = dateFormatter.string(from: date)
-        
-        timeLabel.text = DateFormatter.localizedString(from: Date(),
-                                                              dateStyle: .none,
-                                                              timeStyle: .short)
-        dateLabel.text = value
-        
-    }
+    //MARK: - Firebase Retrieval Functions
     
     func retrieveDataForDay(Day: String) {
         
@@ -242,6 +257,8 @@ class HomeVC: UIViewController, ChartViewDelegate {
         })
     }
     
+    //MARK: - Array/Dictionary Appending Function
+    
     func addToDictionary(Day: String, Key: String, Value: Double) {
         
         switch Day {
@@ -263,6 +280,8 @@ class HomeVC: UIViewController, ChartViewDelegate {
         default: ()
         }
     }
+    
+    //MARK: - Entry Getter Functions
     
     func getEntriesOfCurrentHour(Day: String) -> Int {
         
@@ -322,22 +341,7 @@ class HomeVC: UIViewController, ChartViewDelegate {
         return value
     }
     
-    func compareCurrentHourToNext() {
-        
-        let currentHour = getEntriesOfCurrentHour(Day: determineDay())
-        let nextHour = getEntriesOfNextHour(Day: determineDay())
-        
-        if currentHour > nextHour {
-            arrowImage.image = #imageLiteral(resourceName: "downRedArrow")
-            arrowImage.shake(toward: .top, amount: 0.3, duration: 1, delay: 2, completion: nil)
-        }
-            
-        else {
-            arrowImage.image = #imageLiteral(resourceName: "upGreenArrow")
-            arrowImage.shake(toward: .top, amount: 0.3, duration: 1, delay: 2, completion: nil)
-        }
-        
-    }
+    //MARK: - Busy Status and Arrow Image Functions
     
     func determineBusyLevel(Entries: Int) {
         
@@ -367,6 +371,25 @@ class HomeVC: UIViewController, ChartViewDelegate {
         }
         
     }
+    
+    func compareCurrentHourToNext() {
+        
+        let currentHour = getEntriesOfCurrentHour(Day: determineDay())
+        let nextHour = getEntriesOfNextHour(Day: determineDay())
+        
+        if currentHour > nextHour {
+            arrowImage.image = #imageLiteral(resourceName: "downRedArrow")
+            arrowImage.shake(toward: .top, amount: 0.3, duration: 1, delay: 2, completion: nil)
+        }
+            
+        else {
+            arrowImage.image = #imageLiteral(resourceName: "upGreenArrow")
+            arrowImage.shake(toward: .top, amount: 0.3, duration: 1, delay: 2, completion: nil)
+        }
+        
+    }
+    
+    //MARK: - Current and Next Hour Label Functions
     
     func entriesOfCurrentHour(Day: String) {
         
@@ -436,6 +459,8 @@ class HomeVC: UIViewController, ChartViewDelegate {
         
     }
     
+    //MARK: - Determine Functions
+    
     func determineDay() -> String {
         let date = Date()
         let calendar = Calendar.current
@@ -500,16 +525,8 @@ class HomeVC: UIViewController, ChartViewDelegate {
         
         return value
     }
-    
-    
-    func addNavigationBarTitleImage() {
-        let titleImageView = UIImageView(image: #imageLiteral(resourceName: "currentStatusLabel"))
-        titleImageView.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
-        titleImageView.contentMode = .scaleAspectFit
-        
-        navigationItem.titleView = titleImageView
-    }
 }
+    
 
 extension LineChartView {
     

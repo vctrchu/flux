@@ -111,15 +111,16 @@ class HomeVC: UIViewController, ChartViewDelegate {
         let buttonOne = CancelButton(title: "EXIT") {
         }
         
-        // This button will not the dismiss the dialog
-        let buttonTwo = DefaultButton(title: "RATE THIS APP", dismissOnTap: false) {
-            print("What a beauty!")
-        }
+        // Rate app button to be implemented after release
+//        let buttonTwo = DefaultButton(title: "RATE THIS APP", dismissOnTap: false) {
+//            print("What a beauty!")
+//        }
         
         // Add buttons to dialog
         // Alternatively, you can use popup.addButton(buttonOne)
         // to add a single button
-        popup.addButtons([buttonOne, buttonTwo])
+        //popup.addButtons([buttonOne, buttonTwo])
+        popup.addButton(buttonOne)
         
         // Present dialog
         self.present(popup, animated: true, completion: nil)

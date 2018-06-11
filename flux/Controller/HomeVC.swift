@@ -319,6 +319,7 @@ class HomeVC: UIViewController, ChartViewDelegate {
         
         else {
             busyStatusImage.isHidden = false
+            busyStatusImage.image = #imageLiteral(resourceName: "closedStatus")
             busyStatusImage.popIn(fromScale: 1, duration: 4, delay: 1, completion: nil)
         }
         

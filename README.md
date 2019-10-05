@@ -1,6 +1,6 @@
 # Flux
 
-<img align="left" width="100" height="100" src="https://github.com/victorchu8/flux/blob/master/Flux_Project.png">
+<img align="left" width="1284" height="814" src="https://github.com/victorchu8/flux/blob/master/Flux_Project.png">
 
 
 An iOS app determining how busy the University of Calgary fitness centre is.

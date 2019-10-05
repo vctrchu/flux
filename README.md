@@ -1,6 +1,7 @@
+# Flux
+
 ![](https://github.com/victorchu8/flux/blob/master/Flux_Project.png)
 
-# Flux
 An iOS app determining how busy the University of Calgary fitness centre is.
 
 Built with Swift and Firebase. On the App Store.

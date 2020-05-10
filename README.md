@@ -1,9 +1,8 @@
 ![screenshot](https://github.com/vctrchu/flux/blob/master/FluxCoverImage.png)
-An iOS app determining how busy the University of Calgary fitness centre is.Built with Swift and Firebase
 ##
 ![screenshot](https://github.com/victorchu8/flux/blob/master/Flux_Project.png)
 ##
-![screenshot](FluxGif.gif)
+![screenshot](https://github.com/vctrchu/flux/blob/master/FluxGif.gif)
 
 ## Key Features
 * Status indicator which will show busy, moderately busy or not busy

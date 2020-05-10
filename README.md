@@ -1,7 +1,5 @@
 ![screenshot](https://github.com/vctrchu/flux/blob/master/FluxCoverImage.png)
 ##
-![screenshot](https://github.com/victorchu8/flux/blob/master/Flux_Project.png)
-##
 ![screenshot](https://github.com/vctrchu/flux/blob/master/FluxGif.gif)
 
 ## Key Features
